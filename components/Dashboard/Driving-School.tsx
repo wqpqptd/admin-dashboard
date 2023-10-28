@@ -19,7 +19,7 @@ const DrivingSchool: React.FC = () => {
     <>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-        <CardDataStats title="Total views" total="$3.456K" rate="0.43%" levelUp>
+        <CardDataStats title="Tổng lượt tiếp cận" total="$3.456K" rate="0.43%" levelUp>
           <svg
             className="fill-primary dark:fill-white"
             width="22"
@@ -61,7 +61,7 @@ const DrivingSchool: React.FC = () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="Total Exam" total="2.450" rate="2.59%" levelUp>
+        <CardDataStats title="Tổng đợt sát hạch" total="2.450" rate="2.59%" levelUp>
           <svg
             className="fill-primary dark:fill-white"
             width="22"
@@ -80,7 +80,7 @@ const DrivingSchool: React.FC = () => {
             />
           </svg>
         </CardDataStats>
-        <CardDataStats title="Total Files" total="3.456" rate="0.95%" levelDown>
+        <CardDataStats title="Tổng hồ sơ sát hạch" total="3.456" rate="0.95%" levelDown>
           <svg
             className="fill-primary dark:fill-white"
             width="22"
@@ -111,9 +111,9 @@ const DrivingSchool: React.FC = () => {
         <ChartThree />
         <MapOne />
         <div className="col-span-12 xl:col-span-8">
-          <TableOne />
+          {/* <TableOne /> */}
         </div>
-        <ChatCard />
+        {/* <ChatCard /> */}
       </div>
     </>
   );

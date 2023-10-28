@@ -1,6 +1,8 @@
-import { truncate } from "fs/promises";
-import Breadcrumb from "../Breadcrumbs/Breadcrumb";
+
+import axios from 'axios'
 import { File } from "@/types/files";
+import {URL_SERVER} from '../../services/apiFile'
+import Breadcrumb from "../Breadcrumbs/Breadcrumb";
 
 
 const packageData: File[] = [
@@ -21,7 +23,20 @@ const packageData: File[] = [
   },
 ];
 
-const File = () => {
+const File = async () => {
+
+    async function getFile() {
+        try {
+            const response = await axios.get(`${URL_SERVER}/hoso`);
+            return response.data          
+        } catch (error) {
+            console.error(error);
+          }
+        }
+    
+    const data = await getFile();
+    
+
     return (
         <>
             <Breadcrumb pageName="Hồ sơ sát hạch" />
@@ -79,8 +94,8 @@ const File = () => {
                             </tr>
                             </thead>
                             <tbody>
-                            {packageData.map((packageItem, key) => (
-                                <tr key={key}>
+                            {data?.map((packageItem :any ) => (
+                                <tr key={packageItem.id}>
                                     <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
                                         <h5 className="font-medium text-black dark:text-white">
                                             {packageItem.id}
@@ -94,67 +109,67 @@ const File = () => {
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <p
-                                            className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${packageItem.dday === "Paid"
+                                            className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${packageItem.ngaysinh === "Paid"
                                                 ? "text-success bg-success"
-                                                : packageItem.dday === "Unpaid"
+                                                : packageItem.ngaysinh === "Unpaid"
                                                     ? "text-danger bg-danger"
                                                     : "text-warning bg-warning"
                                                 }`}
                                         >
-                                            {packageItem.dday}
+                                            {packageItem.ngaysinh}
                                             {/* có paid gì ở đây nfè bfà */}
                                         </p>
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <p className="text-black dark:text-white">
-                                            {packageItem.sex}
+                                            {packageItem.gioitinh}
                                         </p>
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <p className="text-black dark:text-white">
-                                            {packageItem.idcard}
-                                        </p>
-                                    </td>
-
-                                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                        <p className="text-black dark:text-white">
-                                            {packageItem.province}
+                                            {packageItem.cccd}
                                         </p>
                                     </td>
 
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <p className="text-black dark:text-white">
-                                            {packageItem.district}
+                                            {packageItem.province_id}
+                                        </p>
+                                    </td>
+
+                                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                                        <p className="text-black dark:text-white">
+                                            {packageItem.district_id}
                                         </p>
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <p className="text-black dark:text-white">
-                                            {packageItem.wards}
+                                            {packageItem.wards_id}
                                         </p>
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <p className="text-black dark:text-white">
-                                            {packageItem.regilion}
+                                            {packageItem.tongiao_id}
                                         </p>
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <p className="text-black dark:text-white">
-                                            {packageItem.people}
+                                            {packageItem.dantoc_id}
                                         </p>
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <p className="text-black dark:text-white">
-                                            {packageItem.image}
+                                            {packageItem.anh}
                                         </p>
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <p className="text-black dark:text-white">
-                                            {packageItem.phone}
+                                            {packageItem.sdt}
                                         </p>
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <p className="text-black dark:text-white">
-                                            {packageItem.message}
+                                            {packageItem.ghichu}
                                         </p>
                                     </td>
 

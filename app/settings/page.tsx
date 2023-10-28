@@ -63,8 +63,8 @@ const Settings = () => {
                           type="text"
                           name="fullName"
                           id="fullName"
-                          placeholder="Devid Jhon"
-                          defaultValue="Devid Jhon"
+                          placeholder="Name"
+                          defaultValue="Tường Di"
                         />
                       </div>
                     </div>
@@ -81,8 +81,8 @@ const Settings = () => {
                         type="text"
                         name="phoneNumber"
                         id="phoneNumber"
-                        placeholder="+990 3343 7865"
-                        defaultValue="+990 3343 7865"
+                        placeholder="0123456789"
+                        defaultValue="0359 350 383"
                       />
                     </div>
                   </div>
@@ -125,8 +125,8 @@ const Settings = () => {
                         type="email"
                         name="emailAddress"
                         id="emailAddress"
-                        placeholder="devidjond45@gmail.com"
-                        defaultValue="devidjond45@gmail.com"
+                        placeholder="abc@gmail.com"
+                        defaultValue="ttdtblx@gmail.com"
                       />
                     </div>
                   </div>
@@ -143,8 +143,8 @@ const Settings = () => {
                       type="text"
                       name="Username"
                       id="Username"
-                      placeholder="devidjhon24"
-                      defaultValue="devidjhon24"
+                      placeholder="username"
+                      defaultValue="Diiiiiiii"
                     />
                   </div>
 
@@ -193,7 +193,7 @@ const Settings = () => {
                         id="bio"
                         rows={6}
                         placeholder="Write your bio here"
-                        defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque posuere fermentum urna, eu condimentum mauris tempus ut. Donec fermentum blandit aliquet."
+                        defaultValue="bliu bliu."
                       ></textarea>
                     </div>
                   </div>
@@ -228,7 +228,7 @@ const Settings = () => {
                   <div className="mb-4 flex items-center gap-3">
                     <div className="h-14 w-14 rounded-full">
                       <Image
-                        src={"/images/user/user-03.png"}
+                        src={"/images/user/c8.jpg"}
                         width={55}
                         height={55}
                         alt="User"
