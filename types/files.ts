@@ -11,5 +11,5 @@ export type File = {
   people:string;
   phone: string;
   image: string;
-  message: string;
+  note: string;
 };

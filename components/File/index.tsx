@@ -19,7 +19,7 @@ const packageData: File[] = [
     people: "Kinh",
     phone:" 0123456789",
     image: "string",
-    message: "hii",
+    note: "hii",
   },
 ];
 
