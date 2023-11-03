@@ -1,41 +1,43 @@
 
 import axios from 'axios'
-import { File } from "@/types/files";
-import {URL_SERVER} from '../../services/apiFile'
+import { Files } from "@/types/files";
+import { URL_SERVER } from '../../services/apiFile'
 import Breadcrumb from "../Breadcrumbs/Breadcrumb";
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 
-const packageData: File[] = [
-{
-    id: 1,
-    name: "Lá Tre",
-    dday: "26/10/2001",
-    sex: true,
-    idcard: "12345678",
-    province: "Cần Thơ",
-    district: "Ninh Kiều",
-    wards: "Xuân Khánh",
-    regilion: "Không",
-    people: "Kinh",
-    phone:" 0123456789",
-    image: "string",
-    note: "hii",
-  },
-];
+// const packageData: File[] = [
+// {
+//     id: 1,
+//     name: "Lá Tre",
+//     dday: "26/10/2001",
+//     sex: true,
+//     idcard: "12345678",
+//     province: "Cần Thơ",
+//     district: "Ninh Kiều",
+//     wards: "Xuân Khánh",
+//     regilion: "Không",
+//     people: "Kinh",
+//     phone:" 0123456789",
+//     image: "string",
+//     note: "hii",
+//   },
+// ];
 
 const File = async () => {
-
+    
     async function getFile() {
         try {
-            const response = await axios.get(`${URL_SERVER}/hoso`);
-            return response.data          
+            const response = await axios.get(`${URL_SERVER}/profile`);
+            return response.data
         } catch (error) {
             console.error(error);
-          }
         }
-    
+    }
+
     const data = await getFile();
-    
+
 
     return (
         <>
@@ -47,7 +49,7 @@ const File = async () => {
             <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
                 <div className="max-w-full overflow-x-auto">
                     <table className="w-full table-auto">
-                    <thead>
+                        <thead>
                             <tr className="bg-meta-1 text-left dark:bg-meta-4">
                                 <th className="min-w-[100px] py-4 px-4 font-medium text-black dark:text-white">
                                     Số thứ tự
@@ -56,31 +58,10 @@ const File = async () => {
                                     Họ và tên
                                 </th>
                                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-                                    Ngày sinh
-                                </th>
-                                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-                                    Giới tính
-                                </th>
-                                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
                                     Mã định danh
                                 </th>
                                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
                                     Tỉnh/Thành Phố
-                                </th>
-                                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-                                    Quận/Huyện
-                                </th>
-                                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-                                    Xã/Phường
-                                </th>
-                                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-                                    Tôn giáo
-                                </th>
-                                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-                                    Dân tộc
-                                </th>
-                                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-                                    Ảnh
                                 </th>
                                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
                                     Số điện thoại
@@ -89,90 +70,45 @@ const File = async () => {
                                     Ghi chú
                                 </th>
                                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-                                   Hành động
+                                    Hành động
                                 </th>
                             </tr>
-                            </thead>
-                            <tbody>
-                            {data?.map((packageItem :any ) => (
+                        </thead>
+                        <tbody>
+                            {data?.map((packageItem: any) => (
                                 <tr key={packageItem.id}>
                                     <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
                                         <h5 className="font-medium text-black dark:text-white">
                                             {packageItem.id}
                                         </h5>
-                                        {/* <p className="text-sm">${packageItem.price}</p> */}
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <p className="text-black dark:text-white">
-                                            {packageItem.name}
-                                        </p>
-                                    </td>
-                                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                        <p
-                                            className={`inline-flex rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${packageItem.ngaysinh === "Paid"
-                                                ? "text-success bg-success"
-                                                : packageItem.ngaysinh === "Unpaid"
-                                                    ? "text-danger bg-danger"
-                                                    : "text-warning bg-warning"
-                                                }`}
-                                        >
-                                            {packageItem.ngaysinh}
-                                            {/* có paid gì ở đây nfè bfà */}
+                                            <Link className="mb-5.5 inline-block hover:text-primary" href={`file/${packageItem.id}`}>
+                                                {packageItem.name}
+                                            </Link>
                                         </p>
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <p className="text-black dark:text-white">
-                                            {packageItem.gioitinh}
+                                            {packageItem.idcard}
                                         </p>
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <p className="text-black dark:text-white">
-                                            {packageItem.cccd}
-                                        </p>
-                                    </td>
-
-                                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                        <p className="text-black dark:text-white">
-                                            {packageItem.province_id}
-                                        </p>
-                                    </td>
-
-                                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                        <p className="text-black dark:text-white">
-                                            {packageItem.district_id}
+                                            {packageItem.province}
                                         </p>
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <p className="text-black dark:text-white">
-                                            {packageItem.wards_id}
+                                            {packageItem.phone}
                                         </p>
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <p className="text-black dark:text-white">
-                                            {packageItem.tongiao_id}
+                                            {packageItem.note}
                                         </p>
                                     </td>
-                                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                        <p className="text-black dark:text-white">
-                                            {packageItem.dantoc_id}
-                                        </p>
-                                    </td>
-                                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                        <p className="text-black dark:text-white">
-                                            {packageItem.anh}
-                                        </p>
-                                    </td>
-                                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                        <p className="text-black dark:text-white">
-                                            {packageItem.sdt}
-                                        </p>
-                                    </td>
-                                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                        <p className="text-black dark:text-white">
-                                            {packageItem.ghichu}
-                                        </p>
-                                    </td>
-
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <div className="flex items-center space-x-3.5">
                                             <button className="hover:text-primary">
@@ -185,11 +121,7 @@ const File = async () => {
                                                     xmlns="http://www.w3.org/2000/svg"
                                                 >
                                                     <path
-                                                        d="M8.99981 14.8219C3.43106 14.8219 0.674805 9.50624 0.562305 9.28124C0.47793 9.11249 0.47793 8.88749 0.562305 8.71874C0.674805 8.49374 3.43106 3.20624 8.99981 3.20624C14.5686 3.20624 17.3248 8.49374 17.4373 8.71874C17.5217 8.88749 17.5217 9.11249 17.4373 9.28124C17.3248 9.50624 14.5686 14.8219 8.99981 14.8219ZM1.85605 8.99999C2.4748 10.0406 4.89356 13.5562 8.99981 13.5562C13.1061 13.5562 15.5248 10.0406 16.1436 8.99999C15.5248 7.95936 13.1061 4.44374 8.99981 4.44374C4.89356 4.44374 2.4748 7.95936 1.85605 8.99999Z"
-                                                        fill=""
-                                                    />
-                                                    <path
-                                                        d="M9 11.3906C7.67812 11.3906 6.60938 10.3219 6.60938 9C6.60938 7.67813 7.67812 6.60938 9 6.60938C10.3219 6.60938 11.3906 7.67813 11.3906 9C11.3906 10.3219 10.3219 11.3906 9 11.3906ZM9 7.875C8.38125 7.875 7.875 8.38125 7.875 9C7.875 9.61875 8.38125 10.125 9 10.125C9.61875 10.125 10.125 9.61875 10.125 9C10.125 8.38125 9.61875 7.875 9 7.875Z"
+                                                        d="M15.55 2.97499C15.55 2.77499 15.475 2.57499 15.325 2.42499C15.025 2.12499 14.725 1.82499 14.45 1.52499C14.175 1.24999 13.925 0.974987 13.65 0.724987C13.525 0.574987 13.375 0.474986 13.175 0.449986C12.95 0.424986 12.75 0.474986 12.575 0.624987L10.875 2.32499H2.02495C1.17495 2.32499 0.449951 3.02499 0.449951 3.89999V14C0.449951 14.85 1.14995 15.575 2.02495 15.575H12.15C13 15.575 13.725 14.875 13.725 14V5.12499L15.35 3.49999C15.475 3.34999 15.55 3.17499 15.55 2.97499ZM8.19995 8.99999C8.17495 9.02499 8.17495 9.02499 8.14995 9.02499L6.34995 9.62499L6.94995 7.82499C6.94995 7.79999 6.97495 7.79999 6.97495 7.77499L11.475 3.27499L12.725 4.49999L8.19995 8.99999ZM12.575 14C12.575 14.25 12.375 14.45 12.125 14.45H2.02495C1.77495 14.45 1.57495 14.25 1.57495 14V3.87499C1.57495 3.62499 1.77495 3.42499 2.02495 3.42499H9.72495L6.17495 6.99999C6.04995 7.12499 5.92495 7.29999 5.87495 7.49999L4.94995 10.3C4.87495 10.5 4.92495 10.675 5.02495 10.85C5.09995 10.95 5.24995 11.1 5.52495 11.1H5.62495L8.49995 10.15C8.67495 10.1 8.84995 9.97499 8.97495 9.84999L12.575 6.24999V14ZM13.5 3.72499L12.25 2.49999L13.025 1.72499C13.225 1.92499 14.05 2.74999 14.25 2.97499L13.5 3.72499Z"
                                                         fill=""
                                                     />
                                                 </svg>

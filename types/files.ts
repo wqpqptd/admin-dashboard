@@ -1,14 +1,14 @@
-export type File = {
+export type Files = {
   id: number;
   name: string;
-  dday: string;
-  sex: boolean;
+  dateofbirth: string;
+  sex: string;
   idcard: string;
   province: string;
   district: string;
   wards: string;
-  regilion: string;
-  people:string;
+  religion: string;
+  nation:string;
   phone: string;
   image: string;
   note: string;
