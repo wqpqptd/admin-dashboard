@@ -1,29 +1,8 @@
 
 import axios from 'axios'
-import { Files } from "@/types/files";
 import { URL_SERVER } from '../../services/apiFile'
 import Breadcrumb from "../Breadcrumbs/Breadcrumb";
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-
-
-// const packageData: File[] = [
-// {
-//     id: 1,
-//     name: "Lá Tre",
-//     dday: "26/10/2001",
-//     sex: true,
-//     idcard: "12345678",
-//     province: "Cần Thơ",
-//     district: "Ninh Kiều",
-//     wards: "Xuân Khánh",
-//     regilion: "Không",
-//     people: "Kinh",
-//     phone:" 0123456789",
-//     image: "string",
-//     note: "hii",
-//   },
-// ];
+import Link from 'next/link'
 
 const File = async () => {
     
@@ -35,16 +14,12 @@ const File = async () => {
             console.error(error);
         }
     }
-
+    
     const data = await getFile();
-
 
     return (
         <>
             <Breadcrumb pageName="Hồ sơ sát hạch" />
-
-
-
             {/* <!-- ======File Section Start ====== --> */}
             <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
                 <div className="max-w-full overflow-x-auto">
@@ -111,7 +86,7 @@ const File = async () => {
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <div className="flex items-center space-x-3.5">
-                                            <button className="hover:text-primary">
+                                            <button className="hover:text-primary" >
                                                 <svg
                                                     className="fill-current"
                                                     width="18"

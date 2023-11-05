@@ -3,22 +3,22 @@ import Breadcrumb from "../Breadcrumbs/Breadcrumb";
 import { URL_SERVER } from "@/services/apiFile";
 import Link from "next/link";
 
-const Examination = async () => {
+const License = async () => {
 
-  async function getExamination() {
+  async function getLicense() {
     try {
-      const response = await axios.get(`${URL_SERVER}/examination`);
+      const response = await axios.get(`${URL_SERVER}/driverlicense`);
       return response.data
     } catch (error) {
       console.error(error);
     }
   }
 
-  const data = await getExamination();
+  const data = await getLicense();
   return (
     <>
-      <Breadcrumb pageName="Đợt sát hạch" />
-      {/* <!-- ======Examination Section Start ====== --> */}
+      <Breadcrumb pageName="Giấy phép lái xe" />
+      {/* <!-- ====== License Section Start ====== --> */}
       <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
         <div className="max-w-full overflow-x-auto">
           <table className="w-full table-auto">
@@ -27,14 +27,17 @@ const Examination = async () => {
                 <th className="min-w-[100px] py-4 px-4 font-medium text-black dark:text-white">
                   Số thứ tự
                 </th>
+                <th className="min-w-[100px] py-4 px-4 font-medium text-black dark:text-white">
+                  Số seri
+                </th>
                 <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
-                  Tên đợt sát hạch
+                  Ngày tạo giấy phép lái xe
                 </th>
                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-                  Ngày tạo sát hạch
+                  Hạng giấy phép lái xe
                 </th>
                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-                  Nội dung đợt sát hạch
+                  Thời hạn giấy phép lái xe
                 </th>
                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
                   Hành động
@@ -50,18 +53,23 @@ const Examination = async () => {
                     </h5>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <Link className="mb-5.5 inline-block hover:text-primary" href={`examination/${packageItem.id}`}>
-                      {packageItem.examinationsName}
+                    <Link className="mb-5.5 inline-block hover:text-primary" href={`driverlicense/${packageItem.id}`}>
+                      {packageItem.code}
                     </Link>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-black dark:text-white">
-                      {packageItem.examinationsDate}
+                      {packageItem.licenseDate}
                     </p>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-black dark:text-white">
-                      {packageItem.examinationsDescription}
+                      {packageItem.driverLicenseClassId}
+                    </p>
+                  </td>
+                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                    <p className="text-black dark:text-white">
+                      {packageItem.driverLicenseDurationId}
                     </p>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
@@ -135,9 +143,9 @@ const Examination = async () => {
           </table>
         </div>
       </div>
-      {/* <!-- ====== Examination Section End ====== --> */}
+      {/* <!-- ====== License Section End ====== --> */}
     </>
   );
 };
 
-export default Examination;
+export default License;

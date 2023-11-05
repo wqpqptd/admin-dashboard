@@ -13,6 +13,7 @@ const FileIdPage = ({params} :{params:any}) => {
   return (
     <>
       <FileId params={params.id}/>
+      {/* <CreateFile/> */}
     </>
   );
 };
