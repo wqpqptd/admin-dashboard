@@ -5,7 +5,7 @@ import Breadcrumb from "../Breadcrumbs/Breadcrumb";
 import Link from 'next/link'
 
 const File = async () => {
-    
+
     async function getFile() {
         try {
             const response = await axios.get(`${URL_SERVER}/profile`);
@@ -14,7 +14,7 @@ const File = async () => {
             console.error(error);
         }
     }
-    
+
     const data = await getFile();
 
     return (
@@ -23,6 +23,11 @@ const File = async () => {
             {/* <!-- ======File Section Start ====== --> */}
             <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
                 <div className="max-w-full overflow-x-auto">
+                    <Link href={"/file/create"}>
+                    <button className="flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Thêm hồ sơ</button>
+                    <br />
+                    </Link>
+                    
                     <table className="w-full table-auto">
                         <thead>
                             <tr className="bg-meta-1 text-left dark:bg-meta-4">
@@ -86,6 +91,7 @@ const File = async () => {
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <div className="flex items-center space-x-3.5">
+                                            <Link href={`file/update?id=${packageItem.id}`}>
                                             <button className="hover:text-primary" >
                                                 <svg
                                                     className="fill-current"
@@ -101,6 +107,8 @@ const File = async () => {
                                                     />
                                                 </svg>
                                             </button>
+                                            </Link>
+                                            
                                             <button className="hover:text-primary">
                                                 <svg
                                                     className="fill-current"

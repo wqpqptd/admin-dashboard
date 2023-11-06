@@ -21,6 +21,8 @@ const Examination = async () => {
       {/* <!-- ======Examination Section Start ====== --> */}
       <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
         <div className="max-w-full overflow-x-auto">
+          <button className="flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Thêm đợt sát hạch</button>
+          <br />
           <table className="w-full table-auto">
             <thead>
               <tr className="bg-meta-1 text-left dark:bg-meta-4">
