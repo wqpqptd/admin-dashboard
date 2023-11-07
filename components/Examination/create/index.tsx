@@ -1,4 +1,5 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+import Link from "next/link";
 
 
 const CreateExamination = async ({ params }: { params: any }) => {
@@ -10,6 +11,10 @@ const CreateExamination = async ({ params }: { params: any }) => {
             {/* <!-- ====== Create Examination Section Start ====== --> */}
             <div className="flex flex-col gap-9" >
                 <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+                    <Link href={"/examination"}>
+                        <button className="flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Trở về</button>
+                        <br />
+                    </Link>
                     <form action="#">
                         <div className="p-6.5">
                             <div className="mb-4.5">

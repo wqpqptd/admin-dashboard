@@ -1,3 +1,4 @@
+'use client'
 import UpdateExamination from "@/components/Examination/update";
 import { Metadata } from "next";
 
@@ -7,10 +8,10 @@ export const metadata: Metadata = {
   // other metadata
 };
 
-const updateExaminationPage = ({ params }:{params:any}) => {
+const updateExaminationPage = () => {
   return (
     <>
-    <UpdateExamination params={params.id}/>
+    <UpdateExamination/>
     </>
   );
 };

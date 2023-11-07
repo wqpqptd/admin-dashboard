@@ -1,4 +1,5 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+import Link from "next/link";
 
 
 const CreateFile = () => {
@@ -9,6 +10,10 @@ const CreateFile = () => {
             {/* <!-- ======Create File Section Start ====== --> */}
             <div className="flex flex-col gap-9" >
                 <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+                <Link href={"/file"}>
+                    <button className="flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Trở về</button>
+                    <br />
+                    </Link>
                     <form action="#">
                         <div className="p-6.5">
                             <div className="mb-4.5">
@@ -57,7 +62,7 @@ const CreateFile = () => {
                                 </label>
                                 <div className="relative z-20 bg-transparent dark:bg-form-input">
                                     <select className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
-                                        <option value="">Chon  tinh thanh pho</option>
+                                        <option value="">Chọn tỉnh/thành phố</option>
                                     </select>
                                     <span className="absolute top-1/2 right-4 z-30 -translate-y-1/2">
                                         <svg
@@ -86,7 +91,7 @@ const CreateFile = () => {
                                 </label>
                                 <div className="relative z-20 bg-transparent dark:bg-form-input">
                                     <select className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
-                                        <option value="">Chon  tinh thanh pho</option>
+                                        <option value="">Chọn quận/huyện</option>
                                     </select>
                                     <span className="absolute top-1/2 right-4 z-30 -translate-y-1/2">
                                         <svg
@@ -115,7 +120,7 @@ const CreateFile = () => {
                                 </label>
                                 <div className="relative z-20 bg-transparent dark:bg-form-input">
                                     <select className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
-                                        <option value="">Chon  tinh thanh pho</option>
+                                        <option value="">Chọn xã/phường</option>
                                     </select>
                                     <span className="absolute top-1/2 right-4 z-30 -translate-y-1/2">
                                         <svg
@@ -144,7 +149,7 @@ const CreateFile = () => {
                                 </label>
                                 <div className="relative z-20 bg-transparent dark:bg-form-input">
                                     <select className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
-                                        <option value="">Chon  tinh thanh pho</option>
+                                        <option value="">Chọn tôn giáo</option>
                                     </select>
                                     <span className="absolute top-1/2 right-4 z-30 -translate-y-1/2">
                                         <svg
@@ -173,7 +178,7 @@ const CreateFile = () => {
                                 </label>
                                 <div className="relative z-20 bg-transparent dark:bg-form-input">
                                     <select className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
-                                        <option value="">Chon  tinh thanh pho</option>
+                                        <option value="">Chọn dân tộc</option>
                                     </select>
                                     <span className="absolute top-1/2 right-4 z-30 -translate-y-1/2">
                                         <svg
@@ -222,7 +227,7 @@ const CreateFile = () => {
                                 </label>
                                 <div className="relative z-20 bg-transparent dark:bg-form-input">
                                     <select className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
-                                        <option value="">Chon  tinh thanh pho</option>
+                                        <option value="">Chọn đợt sát hạch</option>
                                     </select>
                                     <span className="absolute top-1/2 right-4 z-30 -translate-y-1/2">
                                         <svg

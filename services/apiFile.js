@@ -41,3 +41,26 @@ export async function getLicense() {
     }
 
 }
+
+//LicenseClass
+export async function getLicenseClass() {
+  try {
+      const response = await axios.get(`${URL_SERVER}/driverlicenseclass`);
+      return response
+    } catch (error) {
+      console.error(error);
+    }
+
+}
+
+//LicenseDuration
+
+export async function getLicenseDuration() {
+  try {
+      const response = await axios.get(`${URL_SERVER}/driverlicenseduration`);
+      return response
+    } catch (error) {
+      console.error(error);
+    }
+
+}

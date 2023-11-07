@@ -21,8 +21,10 @@ const License = async () => {
       {/* <!-- ====== License Section Start ====== --> */}
       <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
         <div className="max-w-full overflow-x-auto">
-          <button className="flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Thêm giấy phép lái xe</button>
-          <br />
+          <Link href={"/license/create"}>
+            <button className="flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Thêm giấy phép lái xe</button>
+            <br />
+          </Link>
           <table className="w-full table-auto">
             <thead>
               <tr className="bg-meta-1 text-left dark:bg-meta-4">
@@ -55,9 +57,9 @@ const License = async () => {
                     </h5>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <Link className="mb-5.5 inline-block hover:text-primary" href={`driverlicense/${packageItem.id}`}>
+                    <p className="text-black dark:text-white">
                       {packageItem.code}
-                    </Link>
+                    </p>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-black dark:text-white">
@@ -76,7 +78,7 @@ const License = async () => {
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <div className="flex items-center space-x-3.5">
-                      <Link className="hover:text-primary" href={"/"}>
+                      <Link className="hover:text-primary" href={`license/update?id=${packageItem.id}`}>
                         <svg
                           className="fill-current"
                           width="18"

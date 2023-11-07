@@ -15,7 +15,6 @@ const UpdateFileIdPage = () => {
   return (
     <>
       <UpdateFile />
-      {/* <CreateFile/> */}
     </>
   );
 };

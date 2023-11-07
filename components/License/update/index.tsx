@@ -1,22 +1,32 @@
+'use client'
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { URL_SERVER } from "@/services/apiFile";
 import axios from "axios";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { useState, useEffect } from 'react'
+import { useSearchParams } from "next/navigation";
 
 
-const UpdateLicense = async ({ params }: { params: any }) => {
+const UpdateLicense =  () => {
 
-  console.log(params)
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+} = useForm();
+const [packageItem, setPackageItem] = useState({})
+const searchParams = useSearchParams()
+const licenseId = Number(searchParams.get('id'));
 
-  async function getLicense() {
-    try {
-      const response = await axios.get(`${URL_SERVER}/driverlicense/${params}`);
-      return response.data
-    } catch (error) {
-      console.error(error);
-    }
-  }
 
-  const packageItem = await getLicense();
+useEffect(() => {
+    axios.get(`${URL_SERVER}/driverlicense/${licenseId}`, { headers: { 'Access-Control-Allow-Origin': '*' } })
+        .then(response => {
+            setPackageItem(response.data);
+        })
+        .catch(err => console.log(err))
+}, [])
 
   return (
     <>
@@ -25,6 +35,10 @@ const UpdateLicense = async ({ params }: { params: any }) => {
       <div key={packageItem?.id} className="flex flex-col gap-9" >
         <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
           <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
+            <Link href={"/license"}>
+              <button className="flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Trở về</button>
+              <br />
+            </Link>
             <h3 className="font-medium text-black dark:text-white">
               Số thứ tự:
               <h5 className="font-medium text-black dark:text-white">
@@ -32,7 +46,7 @@ const UpdateLicense = async ({ params }: { params: any }) => {
               </h5>
             </h3>
           </div>
-          <form action="#">
+          <form onSubmit={handleSubmit((data) => console.log(data))}>
             <div className="p-6.5">
               <div className="mb-4.5">
                 <label className="mb-2.5 block text-black dark:text-white">
@@ -42,6 +56,7 @@ const UpdateLicense = async ({ params }: { params: any }) => {
                   type="text"
                   placeholder={packageItem?.licenseDate}
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  {...register('licenseDate', { required: true })}
                 />
               </div>
               <div className="mb-4.5">
@@ -52,6 +67,7 @@ const UpdateLicense = async ({ params }: { params: any }) => {
                   type="text"
                   placeholder={packageItem?.driverLicenseClassId}
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  {...register('driverLicenseClassId', { required: true })}
                 />
               </div>
               <div className="mb-6">
@@ -62,6 +78,7 @@ const UpdateLicense = async ({ params }: { params: any }) => {
                   type="text"
                   placeholder={packageItem?.driverLicenseDurationId}
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  {...register('driverLicenseDurationId', { required: true })}
                 />
               </div>
               <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
