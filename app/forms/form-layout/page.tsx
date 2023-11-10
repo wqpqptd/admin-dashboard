@@ -3,6 +3,9 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Form Layout Page | Driving School",
   description: "This is Form Layout page for Admin",
+  icons: {
+    icon: '/images/favicon.ico',
+  },
   // other metadata
 };
 

@@ -4,6 +4,9 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Thêm giấy phép lái xe | Driving School",
   description: "Trang thêm giấy phép lái xe của Admin",
+  icons: {
+    icon: '/images/favicon.ico',
+  },
   // other metadata
 };
 

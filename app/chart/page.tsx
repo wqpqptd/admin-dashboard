@@ -7,6 +7,9 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Chart Page | Driving School",
   description: "This is Chart Page for Admin",
+  icons: {
+    icon: '/images/favicon.ico',
+  },
   // other metadata
 };
 

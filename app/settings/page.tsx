@@ -5,6 +5,9 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Settings Page | Driving School",
   description: "This is Settings page for Admin",
+  icons: {
+    icon: '/images/favicon.ico',
+  },
   // other metadata
 };
 

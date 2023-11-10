@@ -6,6 +6,9 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Trang đăng nhập | Driving School",
   description: "This is Signin page for Admin",
+  icons: {
+    icon: '/images/favicon.ico',
+  },
   // other metadata
 };
 

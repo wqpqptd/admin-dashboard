@@ -1,24 +1,31 @@
+'use client'
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { URL_SERVER } from "@/services/apiFile";
 import axios from "axios";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 
 
-const UpdateLicenseDuration = async ({ params }: { params: any }) => {
+const UpdateLicenseDuration =  () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  const [packageItem, setPackageItem] = useState({})
+  const searchParams = useSearchParams()
+  const licenseDurationId = Number(searchParams.get('id'));
 
-  console.log(params)
-
-  async function getLicenseDuration() {
-    try {
-      const response = await axios.get(`${URL_SERVER}/driverlicenseduration/${params}`);
-      return response.data
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  const packageItem = await getLicenseDuration();
-
+  useEffect(() => {
+    axios.get(`${URL_SERVER}/driverlicenseduration/${licenseDurationId}`, { headers: { 'Access-Control-Allow-Origin': '*' } })
+      .then(response => {
+        setPackageItem(response.data);
+      })
+      .catch(err => console.log(err))
+  }, [])
+  
   return (
     <>
       <Breadcrumb pageName="Điều chỉnh thời hạn giấy phép lái xe" />
@@ -37,7 +44,7 @@ const UpdateLicenseDuration = async ({ params }: { params: any }) => {
               </h5>
             </h3>
           </div>
-          <form action="#">
+          <form onSubmit={handleSubmit((data) => console.log(data))}>
             <div className="p-6.5">
               <div className="mb-4.5">
                 <label className="mb-2.5 block text-black dark:text-white">
@@ -47,6 +54,7 @@ const UpdateLicenseDuration = async ({ params }: { params: any }) => {
                   type="text"
                   placeholder={packageItem?.duration}
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  {...register('duration', { required: true })}
                 />
               </div>
               <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">

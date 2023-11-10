@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-export default function SelectWards({ label, placeholder, value, onChange, provinceName, districtName }) {
+export default function SelectWards({ label, value, onChange, provinceName, districtName }) {
   const [districts, setDistricts] = useState([]);
 
   const [wards, setWards] = useState([]);
@@ -22,13 +22,6 @@ export default function SelectWards({ label, placeholder, value, onChange, provi
 
   }, [provinceName, districtName])
 
-  // const handleWardsChange = (e) => {
-  //     const selectedWard = e.target.value;
-  //     onChange(selectedWard);
-  // };
-
-
-
   return (
     <>
       <label
@@ -45,7 +38,7 @@ export default function SelectWards({ label, placeholder, value, onChange, provi
         onChange={onChange}
         className="block w-full rounded-md border-0   px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-500 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
       >
-        <option value="">{placeholder}</option>
+        <option value="">Chọn xã/phường</option>
         {wards.map((wards: any) => 
         <option key={wards.Id} value={wards.Name}>
           {wards.Name}

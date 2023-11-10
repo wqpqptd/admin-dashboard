@@ -1,20 +1,95 @@
+'use client'
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+import SelectDistricts from "@/components/Select/SelectDistricts";
+import SelectProvinces from "@/components/Select/SelectProvinces";
+import SelectWards from "@/components/Select/SelectWards";
+import { URL_SERVER } from "@/services/apiFile";
+import axios from "axios";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useRouter } from 'next/navigation';
+
 
 
 const CreateFile = () => {
+    const router = useRouter()
+    const [avatarImg, setAvatarImg] = useState<File | null>(null)
+    const [religions, setReligions] = useState([])
+    const [nations, setNations] = useState([])
+    const [examinations, setExaminations] = useState([])
+    const [province, setProvince] = useState('')
+    const [district, setDistrict] = useState('')
+    const [ward, setWard] = useState('')
+
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
+
+    useEffect(() => {
+        axios.get(`${URL_SERVER}/religion`)
+            .then(response => {
+                setReligions(response.data)
+            })
+            .catch(err => console.log(err))
+
+
+        axios.get(`${URL_SERVER}/nation`)
+            .then(response => {
+                setNations(response.data)
+            })
+            .catch(err => console.log(err))
+
+        axios.get(`${URL_SERVER}/examination`)
+            .then(response => {
+                setExaminations(response.data)
+            })
+            .catch(err => console.log(err))
+    }, [])
+
+    const onSubmit = (data) => {
+        
+        
+        const form = new FormData();
+        form.append('name', data.name);
+        form.append('dateofbirth', data.dateofbirth);
+        form.append('sex', data.sex);
+        form.append('idcard', data.idcard);
+        form.append('phone', data.phone);
+        form.append('image', avatarImg);
+        form.append('note', data.note);
+        form.append('nation_id', data.nation);
+        form.append('religion_id', data.religion);
+        form.append('province', province);
+        form.append('district', district);
+        form.append('wards', ward);
+        form.append('examinations_id', data.examination);
+        //post api
+
+        axios.post(`${URL_SERVER}/profile`, form, {
+            headers: { "Content-Type": "multipart/form-data" },
+        }
+        )
+            .then(() => {
+                router.push('/')
+            })
+            .catch(err => console.log(err))
+    }
 
     return (
         <>
             <Breadcrumb pageName="Thêm hồ sơ sát hạch" />
             {/* <!-- ======Create File Section Start ====== --> */}
-            <div className="flex flex-col gap-9" >
-                <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-                <Link href={"/file"}>
-                    <button className="flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Trở về</button>
-                    <br />
+            <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1" >
+                <div className="max-w-full overflow-x-auto">
+                    <Link href={"/file"}>
+                        <button className="flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Trở về</button>
+                        <br />
                     </Link>
-                    <form action="#">
+                    <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="p-6.5">
                             <div className="mb-4.5">
                                 <label className="mb-2.5 block text-black dark:text-white">
@@ -23,6 +98,7 @@ const CreateFile = () => {
                                 <input
                                     type="text"
                                     placeholder="Nhập họ tên"
+                                    {...register('name', { required: true })}
                                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 />
                             </div>
@@ -33,6 +109,7 @@ const CreateFile = () => {
                                 <input
                                     type="text"
                                     placeholder="Nhập ngày sinh"
+                                    {...register('dateofbirth', { required: true })}
                                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 />
                             </div>
@@ -43,6 +120,7 @@ const CreateFile = () => {
                                 <input
                                     type="text"
                                     placeholder="Nhập giới tính"
+                                    {...register('sex', { required: true })}
                                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 />
                             </div>
@@ -54,6 +132,8 @@ const CreateFile = () => {
                                     type="text"
                                     placeholder="Nhập mã định danh"
                                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                    {...register('idcard', { required: true })}
+
                                 />
                             </div>
                             <div className="mb-4.5">
@@ -61,144 +141,51 @@ const CreateFile = () => {
                                     Tỉnh/Thành phố:<span className="text-meta-1">*</span>
                                 </label>
                                 <div className="relative z-20 bg-transparent dark:bg-form-input">
-                                    <select className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
-                                        <option value="">Chọn tỉnh/thành phố</option>
-                                    </select>
-                                    <span className="absolute top-1/2 right-4 z-30 -translate-y-1/2">
-                                        <svg
-                                            className="fill-current"
-                                            width="24"
-                                            height="24"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <g opacity="0.8">
-                                                <path
-                                                    fillRule="evenodd"
-                                                    clipRule="evenodd"
-                                                    d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"
-                                                    fill=""
-                                                ></path>
-                                            </g>
-                                        </svg>
-                                    </span>
+                                    <SelectProvinces label="" value={province} onChange={(e) => setProvince(e.target.value)} />
                                 </div>
                             </div>
                             <div className="mb-4.5">
                                 <label className="mb-2.5 block text-black dark:text-white">
-                                Quận/Huyện:<span className="text-meta-1">*</span>
+                                    Quận/Huyện:<span className="text-meta-1">*</span>
                                 </label>
                                 <div className="relative z-20 bg-transparent dark:bg-form-input">
-                                    <select className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
-                                        <option value="">Chọn quận/huyện</option>
-                                    </select>
-                                    <span className="absolute top-1/2 right-4 z-30 -translate-y-1/2">
-                                        <svg
-                                            className="fill-current"
-                                            width="24"
-                                            height="24"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <g opacity="0.8">
-                                                <path
-                                                    fillRule="evenodd"
-                                                    clipRule="evenodd"
-                                                    d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"
-                                                    fill=""
-                                                ></path>
-                                            </g>
-                                        </svg>
-                                    </span>
+                                    <SelectDistricts label="" provinceName={province} value={district} onChange={(e) => setDistrict(e.target.value)} />
                                 </div>
                             </div>
                             <div className="mb-4.5">
                                 <label className="mb-2.5 block text-black dark:text-white">
-                                Xã/Phường:<span className="text-meta-1">*</span>
+                                    Xã/Phường:<span className="text-meta-1">*</span>
                                 </label>
                                 <div className="relative z-20 bg-transparent dark:bg-form-input">
-                                    <select className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
-                                        <option value="">Chọn xã/phường</option>
-                                    </select>
-                                    <span className="absolute top-1/2 right-4 z-30 -translate-y-1/2">
-                                        <svg
-                                            className="fill-current"
-                                            width="24"
-                                            height="24"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <g opacity="0.8">
-                                                <path
-                                                    fillRule="evenodd"
-                                                    clipRule="evenodd"
-                                                    d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"
-                                                    fill=""
-                                                ></path>
-                                            </g>
-                                        </svg>
-                                    </span>
+                                    <SelectWards label="" provinceName={province} districtName={district} value={ward} onChange={(e) => setWard(e.target.value)} />
                                 </div>
                             </div>
                             <div className="mb-4.5">
                                 <label className="mb-2.5 block text-black dark:text-white">
-                                Tôn giáo: <span className="text-meta-1">*</span>
+                                    Tôn giáo: <span className="text-meta-1">*</span>
                                 </label>
                                 <div className="relative z-20 bg-transparent dark:bg-form-input">
-                                    <select className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
+                                    <select
+                                        {...register('religion', { required: true })}
+                                        className="block w-full rounded-md border-0   px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-500 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    >
                                         <option value="">Chọn tôn giáo</option>
+                                        {religions.map(religion => <option key={religion.id} value={religion.id}>{religion.religionName}</option>)}
                                     </select>
-                                    <span className="absolute top-1/2 right-4 z-30 -translate-y-1/2">
-                                        <svg
-                                            className="fill-current"
-                                            width="24"
-                                            height="24"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <g opacity="0.8">
-                                                <path
-                                                    fillRule="evenodd"
-                                                    clipRule="evenodd"
-                                                    d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"
-                                                    fill=""
-                                                ></path>
-                                            </g>
-                                        </svg>
-                                    </span>
                                 </div>
                             </div>
                             <div className="mb-4.5">
                                 <label className="mb-2.5 block text-black dark:text-white">
-                                Dân tộc: <span className="text-meta-1">*</span>
+                                    Dân tộc: <span className="text-meta-1">*</span>
                                 </label>
                                 <div className="relative z-20 bg-transparent dark:bg-form-input">
-                                    <select className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
+                                    <select
+                                        {...register('nation', { required: true })}
+                                        className="block w-full rounded-md border-0   px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-500 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    >
                                         <option value="">Chọn dân tộc</option>
+                                        {nations.map(nation => <option key={nation.id} value={nation.id}>{nation.nationName}</option>)}
                                     </select>
-                                    <span className="absolute top-1/2 right-4 z-30 -translate-y-1/2">
-                                        <svg
-                                            className="fill-current"
-                                            width="24"
-                                            height="24"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <g opacity="0.8">
-                                                <path
-                                                    fillRule="evenodd"
-                                                    clipRule="evenodd"
-                                                    d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"
-                                                    fill=""
-                                                ></path>
-                                            </g>
-                                        </svg>
-                                    </span>
                                 </div>
                             </div>
                             <div className="mb-4.5">
@@ -206,6 +193,12 @@ const CreateFile = () => {
                                     Hình Ảnh:<span className="text-meta-1">*</span>
                                 </label>
                                 <input
+                                    onChange={e => {
+                                        if (e.target.files && e.target.files[0]) {
+                                            const img = e.target.files[0];
+                                            setAvatarImg(img);
+                                        }
+                                    }}
                                     placeholder="Hình ảnh"
                                     type="file"
                                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -219,35 +212,23 @@ const CreateFile = () => {
                                     type="text"
                                     placeholder="Nhập số điện thoại"
                                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                    {...register('phone', { required: true })}
                                 />
                             </div>
                             <div className="mb-4.5">
                                 <label className="mb-2.5 block text-black dark:text-white">
-                                Đợt sát hạch:
+                                    Đợt sát hạch:<span className="text-meta-1">*</span>
                                 </label>
                                 <div className="relative z-20 bg-transparent dark:bg-form-input">
-                                    <select className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
+                                    <select
+
+                                        {...register('examination', { required: true })}
+                                        className="block w-full rounded-md border-0   px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-500 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    >
                                         <option value="">Chọn đợt sát hạch</option>
+
+                                        {examinations.map(examination => <option key={examination.id} value={examination.id}>{examination.examinationsName}</option>)}
                                     </select>
-                                    <span className="absolute top-1/2 right-4 z-30 -translate-y-1/2">
-                                        <svg
-                                            className="fill-current"
-                                            width="24"
-                                            height="24"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <g opacity="0.8">
-                                                <path
-                                                    fillRule="evenodd"
-                                                    clipRule="evenodd"
-                                                    d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"
-                                                    fill=""
-                                                ></path>
-                                            </g>
-                                        </svg>
-                                    </span>
                                 </div>
                             </div>
                             <div className="mb-6">
@@ -257,6 +238,7 @@ const CreateFile = () => {
                                 <textarea
                                     rows={6}
                                     placeholder="Thêm ghi chú"
+                                    {...register('note', { required: true })}
                                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 ></textarea>
                             </div>
