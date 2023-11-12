@@ -1,3 +1,4 @@
+'use client'
 import LicenseDuration from "@/components/LicenseDuration";
 import { Metadata } from "next";
 

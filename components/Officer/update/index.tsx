@@ -3,9 +3,11 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { URL_SERVER } from "@/services/apiFile";
 import axios from "axios";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast, { Toaster } from 'react-hot-toast';
+
 
 
 const UpdateOfficer =  () => {
@@ -18,6 +20,7 @@ const UpdateOfficer =  () => {
   const [packageItem, setPackageItem] = useState({})
   const searchParams = useSearchParams()
   const officerId = Number(searchParams.get('id'));
+  const router = useRouter()
 
   useEffect(() => {
     axios.get(`${URL_SERVER}/officer/${officerId}`, { headers: { 'Access-Control-Allow-Origin': '*' } })
@@ -26,6 +29,15 @@ const UpdateOfficer =  () => {
       })
       .catch(err => console.log(err))
   }, [])
+
+  const onSubmit = (data) => {
+    axios.patch(`${URL_SERVER}/officer/${officerId}`, data, { headers: { 'Access-Control-Allow-Origin': '*' } })
+      .then(response => {
+        toast.success('Cập nhật thông tin thành công!')
+        router.push('/officer')
+      })
+      .catch(err => console.log(err))
+  }
 
   return (
     <>
@@ -45,7 +57,7 @@ const UpdateOfficer =  () => {
               </h5>
             </h3>
           </div>
-          <form onSubmit={handleSubmit((data) => console.log(data))}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="p-6.5">
               <div className="mb-4.5">
                 <label className="mb-2.5 block text-black dark:text-white">

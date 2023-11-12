@@ -1,9 +1,37 @@
+'use client'
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { URL_SERVER } from "@/services/apiFile";
 
 
-const CreateLicenseDuration = async ({ params }: { params: any }) => {
-    console.log(params);
+
+const CreateLicenseDuration = () => {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
+    const [licenseDuration, setLicenseDuration] = useState([])
+    const searchParams = useSearchParams()
+    const licenseDurationId = Number(searchParams.get('id'));
+    const onSubmit = async (data: any) => {
+        // console.log(data);
+        try {
+            const response = await axios.post(`${URL_SERVER}/driverlicenseduration`, data, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            setLicenseDuration(response.data);
+            window.location.reload()
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     return (
         <>
@@ -15,13 +43,14 @@ const CreateLicenseDuration = async ({ params }: { params: any }) => {
                         <button className="flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Trở về</button>
                         <br />
                     </Link>
-                    <form action="#">
+                    <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="p-6.5">
                             <div className="mb-4.5">
                                 <label className="mb-2.5 block text-black dark:text-white">
                                     Thời hạn giấy phép lái xe: <span className="text-meta-1">*</span>
                                 </label>
                                 <input
+                                    {...register('duration', { required: true })}
                                     type="text"
                                     placeholder="Nhập thời hạn giấy phép lái xe "
                                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -34,9 +63,12 @@ const CreateLicenseDuration = async ({ params }: { params: any }) => {
                                     </button>
                                 </div>
                                 <div className="w-full xl:w-1/2">
-                                    <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
-                                        Hủy
-                                    </button>
+                                    <Link href={"/licenseDuration"}>
+                                        <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
+                                            Hủy
+                                        </button>
+                                    </Link>
+
                                 </div>
                             </div>
                         </div>

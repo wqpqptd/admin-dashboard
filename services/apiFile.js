@@ -64,3 +64,25 @@ export async function getLicenseDuration() {
     }
 
 }
+//FileDetail
+
+export async function getFileDetail() {
+  try {
+      const response = await axios.get(`${URL_SERVER}/detailprofile`);
+      return response
+    } catch (error) {
+      console.error(error);
+    }
+
+}
+//ExaminationDetail
+
+export async function getExaminationsDetail() {
+  try {
+      const response = await axios.get(`${URL_SERVER}/detailexminations`);
+      return response
+    } catch (error) {
+      console.error(error);
+    }
+
+}

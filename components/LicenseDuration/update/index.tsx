@@ -3,12 +3,14 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { URL_SERVER } from "@/services/apiFile";
 import axios from "axios";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast, { Toaster } from 'react-hot-toast';
 
 
-const UpdateLicenseDuration =  () => {
+const UpdateLicenseDuration = () => {
+  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -25,7 +27,18 @@ const UpdateLicenseDuration =  () => {
       })
       .catch(err => console.log(err))
   }, [])
-  
+
+  const onSubmit = (data) => {
+    console.log(data)
+
+    axios.patch(`${URL_SERVER}/driverlicenseduration/${licenseDurationId}`, data, { headers: { 'Access-Control-Allow-Origin': '*' } })
+      .then(response => {
+        toast.success('Cập nhật thông tin thành công!')
+        router.push('/licenseDuration')
+      })
+      .catch(err => console.log(err))
+  }
+
   return (
     <>
       <Breadcrumb pageName="Điều chỉnh thời hạn giấy phép lái xe" />
@@ -44,7 +57,7 @@ const UpdateLicenseDuration =  () => {
               </h5>
             </h3>
           </div>
-          <form onSubmit={handleSubmit((data) => console.log(data))}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="p-6.5">
               <div className="mb-4.5">
                 <label className="mb-2.5 block text-black dark:text-white">
@@ -54,7 +67,7 @@ const UpdateLicenseDuration =  () => {
                   type="text"
                   placeholder={packageItem?.duration}
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                  {...register('duration', { required: true })}
+                  {...register('duration')}
                 />
               </div>
               <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
@@ -64,9 +77,12 @@ const UpdateLicenseDuration =  () => {
                   </button>
                 </div>
                 <div className="w-full xl:w-1/2">
-                  <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
-                    Hủy
-                  </button>
+                  <Link href={"/licenseDuration"}>
+                    <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
+                      Hủy
+                    </button>
+                  </Link>
+
                 </div>
               </div>
             </div>
@@ -74,6 +90,7 @@ const UpdateLicenseDuration =  () => {
         </div>
       </div>
       {/* <!-- ====== Update LicenseDuration Section End ====== --> */}
+      <Toaster/>
     </>
   );
 };

@@ -3,8 +3,8 @@ import UpdateExaminationDetail from "@/components/ExaminationDetail/update";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Điều chỉnh đợt sát hạch | Driving School",
-  description: "Trang điều chỉnh đợt sát hạch của Admin",
+  title: "Điều chỉnh chi tiết đợt sát hạch | Driving School",
+  description: "Trang điều chỉnh chi tiết đợt sát hạch của Admin",
   icons: {
     icon: '/images/favicon.ico',
   },

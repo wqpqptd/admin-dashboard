@@ -46,7 +46,7 @@ const DropdownUser = () => {
           <span className="block text-sm font-medium text-black dark:text-white">
              Tường Di
           </span>
-          <span className="block text-xs">Student</span>
+          <span className="block text-xs">Admin</span>
         </span>
 
         <span className="h-12 w-12 rounded-full">

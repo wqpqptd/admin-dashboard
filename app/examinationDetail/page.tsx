@@ -1,3 +1,4 @@
+'use client'
 import ExaminationDetail from "@/components/ExaminationDetail";
 import { Metadata } from "next";
 

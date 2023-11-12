@@ -1,5 +1,5 @@
+'use client'
 import LicenseClass from "@/components/LicenseClass";
-import Officer from "@/components/Officer";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

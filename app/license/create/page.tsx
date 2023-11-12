@@ -1,3 +1,4 @@
+'use client'
 import CreateLicense from "@/components/License/create";
 import { Metadata } from "next";
 
@@ -10,10 +11,10 @@ export const metadata: Metadata = {
   // other metadata
 };
 
-const createLicensePage = ({ params }:{params:any}) => {
+const createLicensePage = () => {
   return (
     <>
-    <CreateLicense params={params.id}/>
+    <CreateLicense/>
     </>
   );
 };

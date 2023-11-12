@@ -1,3 +1,4 @@
+'use client'
 import Officer from "@/components/Officer";
 import { Metadata } from "next";
 

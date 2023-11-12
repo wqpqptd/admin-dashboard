@@ -1,5 +1,5 @@
+'use client'
 import UpdateLicenseClass from "@/components/LicenseClass/update";
-import UpdateOfficer from "@/components/Officer/update";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -11,10 +11,10 @@ export const metadata: Metadata = {
   // other metadata
 };
 
-const updateLicenseClassPage = ({ params }:{params:any}) => {
+const updateLicenseClassPage = () => {
   return (
     <>
-    <UpdateLicenseClass params={params.id}/>
+    <UpdateLicenseClass/>
     </>
   );
 };

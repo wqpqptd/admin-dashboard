@@ -1,28 +1,44 @@
+'use client'
 import axios from "axios";
 import Breadcrumb from "../Breadcrumbs/Breadcrumb";
 import { URL_SERVER } from "@/services/apiFile";
 import Link from "next/link";
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from "react";
 
-const ExaminationDetail = async () => {
 
-  async function getExaminationDetail() {
-    try {
-      const response = await axios.get(`${URL_SERVER}/examinationdetail`);
-      return response.data
-    } catch (error) {
-      console.error(error);
-    }
+const ExaminationDetail =  () => {
+
+  const searchParams = useSearchParams()
+  const [packageItems, setPackageItem] = useState([])
+  const examinationDetailId = Number(searchParams.get('id'));
+
+  useEffect(() => {
+    axios.get(`${URL_SERVER}/detailexminations`)
+      .then(response => {
+        setPackageItem(response.data);
+      })
+      .catch(err => console.log(err))
+  }, [])
+
+  const deleteExamination = (examinationDetailId: any) => {
+    axios.delete(`${URL_SERVER}/detailexminations/${examinationDetailId}`)
+      .then(response => {
+        console.log(`Deleted examination with ID ${examinationDetailId}`, response.data);
+        setPackageItem(pre => pre.filter(item => item.id !== examinationDetailId))
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
-
-  const data = await getExaminationDetail();
   return (
     <>
-      <Breadcrumb pageName="Đợt sát hạch" />
+      <Breadcrumb pageName="Chi tiết đợt sát hạch" />
       {/* <!-- ======ExaminationDetail Section Start ====== --> */}
       <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
         <div className="max-w-full overflow-x-auto">
-          <Link href={"/examinationdetail/create"}>
-            <button className="flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Thêm đợt sát hạch</button>
+          <Link href={"/examinationDetail/create"}>
+            <button className="flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Thêm chi tiết đợt sát hạch</button>
             <br />
           </Link>
           <table className="w-full table-auto">
@@ -32,13 +48,10 @@ const ExaminationDetail = async () => {
                   Số thứ tự
                 </th>
                 <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
+                  Tên cán bộ
+                </th>
+                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
                   Tên đợt sát hạch
-                </th>
-                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-                  Ngày tạo sát hạch
-                </th>
-                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-                  Nội dung đợt sát hạch
                 </th>
                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
                   Hành động
@@ -46,7 +59,7 @@ const ExaminationDetail = async () => {
               </tr>
             </thead>
             <tbody>
-              {data.map((packageItem: any) => (
+              {packageItems.map((packageItem: any) => (
                 <tr key={packageItem.id}>
                   <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
                     <h5 className="font-medium text-black dark:text-white">
@@ -54,26 +67,21 @@ const ExaminationDetail = async () => {
                     </h5>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    {/* <Link className="text-black dark:text-white inline-block hover:text-primary" href={`examinationdetail/${packageItem.id}`}>
+                    {/* <Link className="text-black dark:text-white inline-block hover:text-primary" href={`detailexminations/${packageItem.id}`}>
                       {packageItem.examinationsName}
                     </Link> */}
                     <p className="text-black dark:text-white">
+                      {packageItem.name}
+                    </p>
+                  </td>
+                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                    <p className="text-black dark:text-white">
                       {packageItem.examinationsName}
-                    </p>
-                  </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-black dark:text-white">
-                      {packageItem.examinationsDate}
-                    </p>
-                  </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-black dark:text-white">
-                      {packageItem.examinationsDescription}
                     </p>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <div className="flex items-center space-x-3.5">
-                      <Link className="hover:text-primary" href={`examinationdetail/update?id=${packageItem.id}`}>
+                      <Link className="hover:text-primary" href={`detailexminations/update?id=${packageItem.id}`}>
                         <svg
                           className="fill-current"
                           width="18"
@@ -88,7 +96,7 @@ const ExaminationDetail = async () => {
                           />
                         </svg>
                       </Link>
-                      <Link className="hover:text-primary" href={"/"}>
+                      <button onClick={() => deleteExamination(packageItem?.id)} className="hover:text-primary">
                         <svg
                           className="fill-current"
                           width="18"
@@ -114,7 +122,7 @@ const ExaminationDetail = async () => {
                             fill=""
                           />
                         </svg>
-                      </Link>
+                      </button>
                       <Link className="hover:text-primary" href={"/"}>
                         <svg
                           className="fill-current"

@@ -4,11 +4,14 @@ import { URL_SERVER } from "@/services/apiFile";
 import axios from "axios";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast, { Toaster } from 'react-hot-toast';
 
 
-const UpdateLicenseClass =  () => {
+const UpdateLicenseClass = () => {
+  const router = useRouter()
 
   const {
     register,
@@ -19,20 +22,32 @@ const UpdateLicenseClass =  () => {
   const searchParams = useSearchParams()
   const licenseClassId = Number(searchParams.get('id'));
 
+
+
   useEffect(() => {
     axios.get(`${URL_SERVER}/driverlicenseclass/${licenseClassId}`, { headers: { 'Access-Control-Allow-Origin': '*' } })
       .then(response => {
+        console.log((response))
         setPackageItem(response.data);
       })
       .catch(err => console.log(err))
   }, [])
 
+  const onSubmit = (data) => {
+    axios.patch(`${URL_SERVER}/driverlicenseclass/${licenseClassId}`, data, { headers: { 'Access-Control-Allow-Origin': '*' } })
+      .then(response => {
+        toast.success('Cập nhật thông tin thành công!')
+        router.push('/licenseClass')
+      })
+      .catch(err => console.log(err))
+  }
+
   return (
     <>
       <Breadcrumb pageName="Điều chỉnh hạng giấy phép lái xe" />
       {/* <!-- ====== Update LicenseClass Section Start ====== --> */}
-      <div key={packageItem?.id} className="flex flex-col gap-9" >
-        <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+      <div key={packageItem?.id} className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1" >
+        <div className="max-w-full overflow-x-auto">
           <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
             <Link href={"/licenseClass"}>
               <button className="flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Trở về</button>
@@ -45,7 +60,7 @@ const UpdateLicenseClass =  () => {
               </h5>
             </h3>
           </div>
-          <form onSubmit={handleSubmit((data) => console.log(data))}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="p-6.5">
               <div className="mb-4.5">
                 <label className="mb-2.5 block text-black dark:text-white">
@@ -65,9 +80,11 @@ const UpdateLicenseClass =  () => {
                   </button>
                 </div>
                 <div className="w-full xl:w-1/2">
-                  <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
-                    Hủy
-                  </button>
+                  <Link href={"/licenseClass"}>
+                    <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
+                      Hủy
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -75,6 +92,7 @@ const UpdateLicenseClass =  () => {
         </div>
       </div>
       {/* <!-- ====== Update LicenseClass Section End ====== --> */}
+      <Toaster />
     </>
   );
 };

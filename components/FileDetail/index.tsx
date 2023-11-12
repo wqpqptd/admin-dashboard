@@ -57,13 +57,13 @@ const FileDetail = () => {
                                     Mã định danh
                                 </th>
                                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-                                    Tỉnh/Thành Phố
+                            GPLX
                                 </th>
                                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-                                    Số điện thoại
+                                    Diem ly thuyet
                                 </th>
                                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-                                    Ghi chú
+                                    Diemr thuc hanh
                                 </th>
                                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
                                     Hành động
@@ -81,7 +81,7 @@ const FileDetail = () => {
                                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                     <p className="text-black dark:text-white">
                                         <Link className="mb-5.5 inline-block hover:text-primary" href={`fileDetail/${packageItem?.id}`}>
-                                            {packageItem?.name}
+                                            {packageItem?.profileId?.name}
                                         </Link>
                                     </p>
                                 </td>

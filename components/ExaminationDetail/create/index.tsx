@@ -9,18 +9,21 @@ import { useForm } from "react-hook-form";
 
 const CreateExaminationDetail = () => {
     const [examinationDetails, setExaminationDetails] = useState([])
+    const [examinations, setExaminations] = useState([])
+    const [officers, setOfficers] = useState([])
+
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
-    
+
 
     const onSubmit = async (data: any) => {
         console.log(data);
 
         try {
-            const response = await axios.post(`${URL_SERVER}/examinationdetail`, data, {
+            const response = await axios.post(`${URL_SERVER}/detailexminations`, data, {
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -30,6 +33,19 @@ const CreateExaminationDetail = () => {
             console.log(error);
         }
     };
+    useEffect(() => {
+        axios.get(`${URL_SERVER}/officer`)
+            .then(response => {
+                setOfficers(response.data)
+            })
+            .catch(err => console.log(err))
+
+        axios.get(`${URL_SERVER}/examination`)
+            .then(response => {
+                setExaminations(response.data)
+            })
+            .catch(err => console.log(err))
+    }, [])
 
     return (
         <>
@@ -37,7 +53,7 @@ const CreateExaminationDetail = () => {
             {/* <!-- ====== Create ExaminationDetail Section Start ====== --> */}
             <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1" >
                 <div className="max-w-full overflow-x-auto">
-                    <Link href={"/examination"}>
+                    <Link href={"/examinationDetail"}>
                         <button className="flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Trở về</button>
                         <br />
                     </Link>
@@ -45,41 +61,31 @@ const CreateExaminationDetail = () => {
                         <div className="p-6.5">
                             <div className="mb-4.5">
                                 <label className="mb-2.5 block text-black dark:text-white">
-                                    Tên đợt sát hạch:<span className="text-meta-1">*</span>
+                                    Đợt sát hạch:<span className="text-meta-1">*</span>
                                 </label>
-                                <input
-                                    {...register('examinationsName', { required: true })}
-                                    name="examinationsName"
-                                    type="text"
-                                    placeholder="Nhập tên đợt sát hạch "
-                                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                />
+                                <div className="relative z-20 bg-transparent dark:bg-form-input">
+                                    <select
+                                        {...register('examinationsId', { required: true })}
+                                        className="block w-full rounded-md border-0   px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-500 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    >
+                                        <option value="">Chọn đợt sát hạch</option>
+                                        {examinations.map(examination => <option key={examination.id} value={examination.id}>{examination.examinationsName}</option>)}
+                                    </select>
+                                </div>
                             </div>
                             <div className="mb-4.5">
                                 <label className="mb-2.5 block text-black dark:text-white">
-                                    Ngày tạo sát hạch: <span className="text-meta-1">*</span>
+                                    Cán bộ: <span className="text-meta-1">*</span>
                                 </label>
-                                <input
-                                    {...register('examinationsDate', { required: true })}
-
-                                    name="examinationsDate"
-                                    type="date"
-                                    placeholder="Nhập ngày tạo đợt sát hạch"
-                                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                />
-                            </div>
-                            <div className="mb-6">
-                                <label className="mb-2.5 block text-black dark:text-white">
-                                    Nội dung đợt sát hạch:<span className="text-meta-1">*</span>
-                                </label>
-                                <textarea
-                                    {...register('examinationsDescription', { required: true })}
-
-                                    name="examinationsDescription"
-                                    rows={6}
-                                    placeholder="Nhập nội dung đợt sát hạch"
-                                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                ></textarea>
+                                <div className="relative z-20 bg-transparent dark:bg-form-input">
+                                    <select
+                                        {...register('officerId', { required: true })}
+                                        className="block w-full rounded-md border-0   px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-500 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                    >
+                                        <option value="">Chọn cán bộ</option>
+                                        {officers.map(officer => <option key={officer.id} value={officer.id}>{officer.name}</option>)}
+                                    </select>
+                                </div>
                             </div>
                             <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
                                 <div className="w-full xl:w-1/2">
@@ -88,9 +94,12 @@ const CreateExaminationDetail = () => {
                                     </button>
                                 </div>
                                 <div className="w-full xl:w-1/2">
-                                    <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
-                                        Hủy
-                                    </button>
+                                    <Link href={"/examinationDetail"}>
+                                        <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
+                                            Hủy
+                                        </button>
+                                    </Link>
+
                                 </div>
                             </div>
                         </div>

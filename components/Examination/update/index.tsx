@@ -4,42 +4,39 @@ import { URL_SERVER } from "@/services/apiFile";
 import axios from "axios";
 import Link from "next/link";
 import { useForm } from 'react-hook-form';
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect } from 'react'
-
+import toast, { Toaster } from 'react-hot-toast';
 
 
 const UpdateExamination = () => {
+  const router = useRouter()
   const {
     register,
     handleSubmit,
     formState: { errors },
-} = useForm();
-const [packageItem, setPackageItem] = useState({})
-const searchParams = useSearchParams()
-const examinationId = Number(searchParams.get('id'));
+  } = useForm();
+  const [packageItem, setPackageItem] = useState({})
+  const searchParams = useSearchParams()
+  const examinationId = Number(searchParams.get('id'));
 
 
-useEffect(() => {
+  useEffect(() => {
     axios.get(`${URL_SERVER}/examination/${examinationId}`, { headers: { 'Access-Control-Allow-Origin': '*' } })
-        .then(response => {
-            setPackageItem(response.data);
-        })
-        .catch(err => console.log(err))
-}, [])
-
-  // console.log(params)
-
-  // async function getExamination() {
-  //   try {
-  //     const response = await axios.get(`${URL_SERVER}/examination/${params}`);
-  //     return response.data
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
-
-  // const packageItem = await getExamination();
+      .then(response => {
+        setPackageItem(response.data);
+      })
+      .catch(err => console.log(err))
+  }, [])
+  const onSubmit = (data) => {
+    console.log(data)
+    axios.patch(`${URL_SERVER}/examination/${examinationId}`, data, { headers: { 'Access-Control-Allow-Origin': '*' } })
+      .then(response => {
+        toast.success('Cập nhật thông tin thành công!')
+        router.push('/examination')
+      })
+      .catch(err => console.log(err))
+  }
 
   return (
     <>
@@ -59,7 +56,7 @@ useEffect(() => {
               </h5>
             </h3>
           </div>
-          <form onSubmit={handleSubmit((data) => console.log(data))}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <div className="p-6.5">
               <div className="mb-4.5">
                 <label className="mb-2.5 block text-black dark:text-white">
@@ -69,7 +66,7 @@ useEffect(() => {
                   type="text"
                   placeholder={packageItem?.examinationsName}
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                  {...register('examinationsName', { required: true })}
+                  {...register('examinationsName')}
                 />
               </div>
               <div className="mb-4.5">
@@ -80,7 +77,7 @@ useEffect(() => {
                   type="text"
                   placeholder={packageItem?.examinationsDate}
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                  {...register('examinationsDate', { required: true })}
+                  {...register('examinationsDate')}
                 />
               </div>
               <div className="mb-6">
@@ -91,7 +88,7 @@ useEffect(() => {
                   rows={6}
                   placeholder={packageItem?.examinationsDescription}
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                  {...register('examinationsDescription', { required: true })}
+                  {...register('examinationsDescription')}
                 ></textarea>
               </div>
               <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
@@ -111,6 +108,7 @@ useEffect(() => {
         </div>
       </div>
       {/* <!-- ====== Update Examination Section End ====== --> */}
+      <Toaster/>
     </>
   );
 };

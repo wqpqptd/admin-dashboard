@@ -1,3 +1,4 @@
+'use client'
 import CreateOfficer from "@/components/Officer/create";
 import { Metadata } from "next";
 
@@ -10,10 +11,10 @@ export const metadata: Metadata = {
   // other metadata
 };
 
-const createOfficerPage = ({ params }:{params:any}) => {
+const createOfficerPage = () => {
   return (
     <>
-    <CreateOfficer params={params.id}/>
+    <CreateOfficer/>
     </>
   );
 };

@@ -1,20 +1,35 @@
+'use client'
 import axios from "axios";
 import Breadcrumb from "../Breadcrumbs/Breadcrumb";
 import { URL_SERVER } from "@/services/apiFile";
 import Link from "next/link";
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from "react";
 
-const Examination = async () => {
+const Examination = () => {
 
-  async function getExamination() {
-    try {
-      const response = await axios.get(`${URL_SERVER}/examination`);
-      return response.data
-    } catch (error) {
-      console.error(error);
-    }
+  const searchParams = useSearchParams()
+  const [packageItems, setPackageItem] = useState([])
+  const examinationId = Number(searchParams.get('id'));
+
+  useEffect(() => {
+    axios.get(`${URL_SERVER}/examination`)
+      .then(response => {
+        setPackageItem(response.data);
+      })
+      .catch(err => console.log(err))
+  }, [])
+
+  const deleteExamination = (examinationId: any) => {
+    axios.delete(`${URL_SERVER}/examination/${examinationId}`)
+      .then(response => {
+        console.log(`Deleted examination with ID ${examinationId}`, response.data);
+        setPackageItem(pre => pre.filter(item => item.id !== examinationId))
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
-
-  const data = await getExamination();
   return (
     <>
       <Breadcrumb pageName="Đợt sát hạch" />
@@ -46,7 +61,7 @@ const Examination = async () => {
               </tr>
             </thead>
             <tbody>
-              {data.map((packageItem: any) => (
+              {packageItems.map((packageItem: any) => (
                 <tr key={packageItem.id}>
                   <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
                     <h5 className="font-medium text-black dark:text-white">
@@ -88,7 +103,8 @@ const Examination = async () => {
                           />
                         </svg>
                       </Link>
-                      <Link className="hover:text-primary" href={"/"}>
+                      <button onClick={() => deleteExamination(packageItem?.id)} className="hover:text-primary">
+
                         <svg
                           className="fill-current"
                           width="18"
@@ -114,7 +130,7 @@ const Examination = async () => {
                             fill=""
                           />
                         </svg>
-                      </Link>
+                      </button>
                       <Link className="hover:text-primary" href={"/"}>
                         <svg
                           className="fill-current"

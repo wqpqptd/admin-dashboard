@@ -9,6 +9,7 @@ import SelectDistricts from '@/components/Select/SelectDistricts';
 import SelectWards from '@/components/Select/SelectWards';
 import { useForm } from 'react-hook-form';
 import Link from 'next/link';
+import toast, { Toaster } from 'react-hot-toast';
 
 
 const UpdateFile = () => {
@@ -16,6 +17,7 @@ const UpdateFile = () => {
     const [province, setProvince] = useState()
     const [district, setDistrict] = useState()
     const [ward, setWard] = useState()
+    const [imageAvatar, setImageAvatar] = useState<File|null>(null)
 
     const {
         register,
@@ -37,6 +39,7 @@ const UpdateFile = () => {
     useEffect(() => {
         axios.get(`${URL_SERVER}/profile/${fileId}`, { headers: { 'Access-Control-Allow-Origin': '*' } })
             .then(response => {
+                console.log("response: ", response)
                 setPackageItem(response.data);
                 setExamination(response.data.examinationsId.id)
                 setNation(response.data.nationId.id)
@@ -44,7 +47,6 @@ const UpdateFile = () => {
                 setProvince(response.data.province)
                 setDistrict(response.data.district)
                 setWard(response.data.wards)
-
             })
             .catch(err => console.log(err))
 
@@ -67,14 +69,16 @@ const UpdateFile = () => {
     }, [])
 
     const onSubmit = (data) => {
+        console.log(data)
+        console.log(imageAvatar)
         const form = new FormData();
-        form.append('name', data.name);
-        form.append('dateofbirth', data.dateofbirth);
-        form.append('sex', data.sex);
-        form.append('idcard', data.idcard);
-        form.append('phone', data.phone);
-        form.append('image', data.image);
-        form.append('note', data.note);
+        form.append('name', data.name || packageItem.name);
+        form.append('dateofbirth', data.dateofbirth || packageItem.dateofbirth);
+        form.append('sex', data.sex || packageItem.sex);
+        form.append('idcard', data.idcard || packageItem.idcard);
+        form.append('phone', data.phone || packageItem.phone);
+        form.append('image', imageAvatar);
+        form.append('note', data.note || packageItem.note);
         form.append("nation_id", nation);
         form.append("religion_id", religion);
         form.append("province", province);
@@ -83,8 +87,8 @@ const UpdateFile = () => {
         form.append("examinations_id", examination);
 
         axios.patch(`${URL_SERVER}/profile/${fileId}`, form, {headers: {"Content-Type": "multipart/form-data" }})
-            .then(() => {
-                //success
+            .then((response) => {
+                toast.success('Cập nhật thông tin thành công!')
             })
             .catch(err => console.log(err))
 
@@ -115,7 +119,7 @@ const UpdateFile = () => {
                                 <input
                                     type="text"
                                     placeholder={packageItem?.name}
-                                    {...register('name', { required: true })}
+                                    {...register('name')}
                                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 />
                                 {errors.name && <p className='text-red-600'>Bạn cần phải nhập họ và tên</p>}
@@ -127,7 +131,7 @@ const UpdateFile = () => {
                                 <input
                                     type="text"
                                     placeholder={packageItem?.dateofbirth}
-                                    {...register('dateofbirth', { required: true })}
+                                    {...register('dateofbirth')}
 
                                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 />
@@ -139,7 +143,7 @@ const UpdateFile = () => {
                                 <input
                                     type="text"
                                     placeholder={packageItem?.sex}
-                                    {...register('sex', { required: true })}
+                                    {...register('sex')}
                                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 />
                             </div>
@@ -150,7 +154,7 @@ const UpdateFile = () => {
                                 <input
                                     type="text"
                                     placeholder={packageItem?.idcard}
-                                    {...register('idcard', { required: true })}
+                                    {...register('idcard')}
                                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 />
                             </div>
@@ -211,7 +215,12 @@ const UpdateFile = () => {
                                     placeholder="Hình ảnh"
                                     type="file"
                                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                    {...register('image')}
+                                    onChange={e => {
+                                        if (e.target.files && e.target.files[0]) {
+                                            const img = e.target.files[0];
+                                            setImageAvatar(img);
+                                        }
+                                    }}
                                 />
                                 <br />
                                 <br />
@@ -229,7 +238,7 @@ const UpdateFile = () => {
                                 <input
                                     type="text"
                                     placeholder={packageItem?.phone}
-                                    {...register('phone', { required: true })}
+                                    {...register('phone')}
                                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 />
                             </div>
@@ -255,7 +264,7 @@ const UpdateFile = () => {
                                 <textarea
                                     rows={6}
                                     placeholder={packageItem?.note}
-                                    {...register('note', { required: true })}
+                                    {...register('note')}
                                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 ></textarea>
                             </div>
@@ -277,6 +286,7 @@ const UpdateFile = () => {
                     </form>
                 </div>
             </div>
+            <Toaster/>
         </>
     );
 };

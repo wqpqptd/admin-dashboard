@@ -1,20 +1,36 @@
+'use client'
 import axios from "axios";
 import Breadcrumb from "../Breadcrumbs/Breadcrumb";
 import { URL_SERVER } from "@/services/apiFile";
 import Link from "next/link";
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from "react";
 
-const LicenseClass = async () => {
 
-  async function getLicenseClass() {
-    try {
-      const response = await axios.get(`${URL_SERVER}/driverlicenseclass`);
-      return response.data
-    } catch (error) {
-      console.error(error);
-    }
+const LicenseClass = () => {
+
+  const searchParams = useSearchParams()
+  const [packageItems, setPackageItem] = useState([])
+  const licenseId = Number(searchParams.get('id'));
+
+  useEffect(() => {
+    axios.get(`${URL_SERVER}/driverlicenseclass`)
+      .then(response => {
+        setPackageItem(response.data);
+      })
+      .catch(err => console.log(err))
+  }, [])
+
+  const deleteLicense = (licenseId: any) => {
+    axios.delete(`${URL_SERVER}/driverlicenseclass/${licenseId}`)
+      .then(response => {
+        console.log(`Deleted License with ID ${licenseId}`, response.data);
+        setPackageItem(pre => pre.filter(item => item.id !== licenseId))
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
-
-  const data = await getLicenseClass();
   return (
     <>
       <Breadcrumb pageName="Hạng giấy phép lái xe" />
@@ -40,7 +56,7 @@ const LicenseClass = async () => {
               </tr>
             </thead>
             <tbody>
-              {data.map((packageItem: any) => (
+              {packageItems.map((packageItem: any) => (
                 <tr key={packageItem.id}>
                   <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
                     <h5 className="font-medium text-black dark:text-white">
@@ -54,7 +70,7 @@ const LicenseClass = async () => {
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <div className="flex items-center space-x-3.5">
-                      <Link className="hover:text-primary" href={"/licenseClass/update"}>
+                      <Link className="hover:text-primary" href={`/licenseClass/update?id=${packageItem.id}`}>
                         <svg
                           className="fill-current"
                           width="18"
@@ -69,7 +85,8 @@ const LicenseClass = async () => {
                           />
                         </svg>
                       </Link>
-                      <Link className="hover:text-primary" href={"/"}>
+                      <button onClick={() => deleteLicense(packageItem?.id)} className="hover:text-primary">
+
                         <svg
                           className="fill-current"
                           width="18"
@@ -95,7 +112,7 @@ const LicenseClass = async () => {
                             fill=""
                           />
                         </svg>
-                      </Link>
+                      </button>
                       <Link className="hover:text-primary" href={"/"}>
                         <svg
                           className="fill-current"

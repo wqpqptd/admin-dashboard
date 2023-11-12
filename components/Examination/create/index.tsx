@@ -3,6 +3,7 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { URL_SERVER } from "@/services/apiFile";
 import axios from "axios";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from 'react'
 import { useForm } from "react-hook-form";
 
@@ -14,11 +15,11 @@ const CreateExamination = () => {
         handleSubmit,
         formState: { errors },
     } = useForm();
-    
 
+    const searchParams = useSearchParams()
+    const examinationId = Number(searchParams.get('id'));
     const onSubmit = async (data: any) => {
-        console.log(data);
-
+        // console.log(data);
         try {
             const response = await axios.post(`${URL_SERVER}/examination`, data, {
                 headers: {
@@ -26,6 +27,7 @@ const CreateExamination = () => {
                 },
             });
             setExaminations(response.data);
+            window.location.reload()
         } catch (error) {
             console.log(error);
         }
@@ -88,9 +90,11 @@ const CreateExamination = () => {
                                     </button>
                                 </div>
                                 <div className="w-full xl:w-1/2">
-                                    <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
-                                        Hủy
-                                    </button>
+                                    <Link href={"/examination"}>
+                                        <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
+                                            Hủy
+                                        </button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
