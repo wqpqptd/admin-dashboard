@@ -3,14 +3,15 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { URL_SERVER } from "@/services/apiFile";
 import axios from "axios";
 import Link from "next/link";
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-
+import toast, { Toaster } from 'react-hot-toast';
 
 
 const CreateLicense = () => {
-    const [license, setLicense] = useState([])
+    const router = useRouter()
+
     const {
         register,
         handleSubmit,
@@ -19,17 +20,19 @@ const CreateLicense = () => {
     const [licenseClass, setLicenseClass] = useState([])
     const [licenseDuration, setLicenseDuration] = useState([])
     const searchParams = useSearchParams()
-    const licenseId = Number(searchParams.get('id'));
+    const profileId = Number(searchParams.get('profileId'));
+
     const onSubmit = async (data: any) => {
         // console.log(data);
         try {
             const response = await axios.post(`${URL_SERVER}/driverlicense`, data, {
                 headers: {
                     'Content-Type': 'application/json',
-                },
+                }
             });
-            setLicense(response.data);
-            window.location.reload()
+            console.log(response)
+            toast.success('Thêm giấy phép lái xe thành công!')
+            router.push(`/fileDetail/create?idLicense=${response.data.id}`)
         } catch (error) {
             console.log(error);
         }
@@ -54,10 +57,12 @@ const CreateLicense = () => {
             {/* <!-- ====== Create License Section Start ====== --> */}
             <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1" >
                 <div className="max-w-full overflow-x-auto">
-                    <Link href={"/license"}>
-                        <button className="flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Trở về</button>
-                        <br />
-                    </Link>
+                    <div className="w-20 ">
+                        <Link href={"/fileDetail/create"}>
+                            <button className="flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Trở về</button>
+                            <br />
+                        </Link>
+                    </div>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="p-6.5">
                             <div className="mb-4.5">
@@ -94,7 +99,7 @@ const CreateLicense = () => {
                                             className="block w-full rounded-md border-0   px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-500 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                         >
                                             <option value="">Chọn thời hạn của giấy phép lái xe</option>
-                                            {licenseDuration.map(duration  => <option key={duration.id} value={duration.id}>{duration.duration}</option>)}
+                                            {licenseDuration.map(duration => <option key={duration.id} value={duration.id}>{duration.duration}</option>)}
                                         </select>
                                     </div>
                                 </div>
@@ -105,12 +110,11 @@ const CreateLicense = () => {
                                         </button>
                                     </div>
                                     <div className="w-full xl:w-1/2">
-                                        <Link href={"/license"}>
+                                        <Link href={"/fileDetail/create"}>
                                             <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
                                                 Hủy
                                             </button>
                                         </Link>
-
                                     </div>
                                 </div>
                             </div>
@@ -118,6 +122,7 @@ const CreateLicense = () => {
                     </form>
                 </div>
             </div>
+            <Toaster />
             {/* <!-- ====== Create License Section End ====== --> */}
         </>
     );

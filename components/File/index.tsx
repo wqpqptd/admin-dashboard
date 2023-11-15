@@ -5,6 +5,7 @@ import Breadcrumb from "../Breadcrumbs/Breadcrumb";
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from "react";
+import toast, { Toaster } from 'react-hot-toast';
 
 const File = () => {
     const searchParams = useSearchParams()
@@ -15,6 +16,8 @@ const File = () => {
         axios.get(`${URL_SERVER}/profile`)
             .then(response => {
                 setPackageItem(response.data);
+                console.log(response.data);
+                
             })
             .catch(err => console.log(err))
     }, [])
@@ -24,6 +27,7 @@ const File = () => {
     const deleteFile = (fileId: any) => {
         axios.delete(`${URL_SERVER}/profile/${fileId}`)
             .then(response => {
+                toast.success('Xóa hồ sơ thành công!')
                 console.log(`Deleted file with ID ${fileId}`, response.data);
                 setPackageItem(pre => pre.filter(item => item.id !== fileId))
             })
@@ -63,7 +67,7 @@ const File = () => {
                                     Số điện thoại
                                 </th>
                                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-                                    Ghi chú
+                                    Trạng thái
                                 </th>
                                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
                                     Hành động
@@ -101,8 +105,13 @@ const File = () => {
                                         </p>
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                        <p className="text-black dark:text-white">
-                                            {packageItem?.note}
+                                        <p className={`inline-flex justify-center rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${packageItem.status === "APPROVED"
+                                                ? "text-success bg-success"
+                                                : packageItem.status === "NOT_APPROVE"
+                                                    ? "text-danger bg-danger"
+                                                    : "text-warning bg-warning"
+                                            }`}>
+                                            {packageItem?.status}
                                         </p>
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
@@ -178,6 +187,7 @@ const File = () => {
                     </table>
                 </div>
             </div>
+            <Toaster/>
             {/* <!-- ====== File Section End ====== --> */}
         </>
     );

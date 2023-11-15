@@ -3,11 +3,13 @@ import axios from "axios";
 import Breadcrumb from "../Breadcrumbs/Breadcrumb";
 import { URL_SERVER } from "@/services/apiFile";
 import Link from "next/link";
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from "react";
+import toast, { Toaster } from 'react-hot-toast';
+
 
 const Examination = () => {
-
+  const router = useRouter()
   const searchParams = useSearchParams()
   const [packageItems, setPackageItem] = useState([])
   const examinationId = Number(searchParams.get('id'));
@@ -24,6 +26,7 @@ const Examination = () => {
     axios.delete(`${URL_SERVER}/examination/${examinationId}`)
       .then(response => {
         console.log(`Deleted examination with ID ${examinationId}`, response.data);
+        toast.success('Xóa đợt sát hạch thành công!')
         setPackageItem(pre => pre.filter(item => item.id !== examinationId))
       })
       .catch(error => {
@@ -53,6 +56,9 @@ const Examination = () => {
                   Ngày tạo sát hạch
                 </th>
                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+                Số lượng người chưa đăng ký
+                </th>
+                <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
                   Nội dung đợt sát hạch
                 </th>
                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
@@ -79,6 +85,11 @@ const Examination = () => {
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-black dark:text-white">
                       {packageItem.examinationsDate}
+                    </p>
+                  </td>
+                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                    <p className="text-black dark:text-white">
+                      {packageItem.examinationsQuantity}
                     </p>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
@@ -158,6 +169,7 @@ const Examination = () => {
           </table>
         </div>
       </div>
+      <Toaster />
       {/* <!-- ====== Examination Section End ====== --> */}
     </>
   );

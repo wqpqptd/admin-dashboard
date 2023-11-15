@@ -9,12 +9,14 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from 'next/navigation';
+import toast, { Toaster } from 'react-hot-toast';
 
 
 
 const CreateFile = () => {
     const router = useRouter()
     const [avatarImg, setAvatarImg] = useState<File | null>(null)
+    const [avatarHealthCard, setAvatarHealthCard] = useState<File | null>(null)
     const [religions, setReligions] = useState([])
     const [nations, setNations] = useState([])
     const [examinations, setExaminations] = useState([])
@@ -59,7 +61,9 @@ const CreateFile = () => {
         form.append('sex', data.sex);
         form.append('idcard', data.idcard);
         form.append('phone', data.phone);
+        form.append('email', data.email);
         form.append('image', avatarImg);
+        form.append('file', avatarHealthCard);
         form.append('note', data.note);
         form.append('nation_id', data.nation);
         form.append('religion_id', data.religion);
@@ -74,7 +78,8 @@ const CreateFile = () => {
         }
         )
             .then(() => {
-                router.push('/')
+                toast.success('Thêm hồ sơ thành công!')
+                router.push('/file')
             })
             .catch(err => console.log(err))
     }
@@ -206,6 +211,22 @@ const CreateFile = () => {
                             </div>
                             <div className="mb-4.5">
                                 <label className="mb-2.5 block text-black dark:text-white">
+                                    Phiếu sức khỏe:<span className="text-meta-1">*</span>
+                                </label>
+                                <input
+                                    onChange={e => {
+                                        if (e.target.files && e.target.files[0]) {
+                                            const healthCard = e.target.files[0];
+                                            setAvatarHealthCard(healthCard);
+                                        }
+                                    }}
+                                    placeholder="Phiếu khám sức khỏe"
+                                    type="file"
+                                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                />
+                            </div>
+                            <div className="mb-4.5">
+                                <label className="mb-2.5 block text-black dark:text-white">
                                     Số điện thoại:<span className="text-meta-1">*</span>
                                 </label>
                                 <input
@@ -213,6 +234,17 @@ const CreateFile = () => {
                                     placeholder="Nhập số điện thoại"
                                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                     {...register('phone', { required: true })}
+                                />
+                            </div>
+                            <div className="mb-4.5">
+                                <label className="mb-2.5 block text-black dark:text-white">
+                                    Email:<span className="text-meta-1">*</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    placeholder="Nhập email"
+                                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                    {...register('email', { required: true })}
                                 />
                             </div>
                             <div className="mb-4.5">
@@ -258,6 +290,7 @@ const CreateFile = () => {
                     </form>
                 </div>
             </div>
+            <Toaster/>
             {/* <!-- ====== Create File Section End ====== --> */}
         </>
     );

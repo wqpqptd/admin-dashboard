@@ -3,8 +3,9 @@ import axios from "axios";
 import Breadcrumb from "../Breadcrumbs/Breadcrumb";
 import { URL_SERVER } from "@/services/apiFile";
 import Link from "next/link";
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from "react";
+import toast, { Toaster } from 'react-hot-toast';
 
 
 const ExaminationDetail =  () => {
@@ -12,6 +13,8 @@ const ExaminationDetail =  () => {
   const searchParams = useSearchParams()
   const [packageItems, setPackageItem] = useState([])
   const examinationDetailId = Number(searchParams.get('id'));
+  const router = useRouter()
+
 
   useEffect(() => {
     axios.get(`${URL_SERVER}/detailexminations`)
@@ -25,6 +28,7 @@ const ExaminationDetail =  () => {
     axios.delete(`${URL_SERVER}/detailexminations/${examinationDetailId}`)
       .then(response => {
         console.log(`Deleted examination with ID ${examinationDetailId}`, response.data);
+        toast.success('Xóa chi tiết đợt sát hạch thành công!')
         setPackageItem(pre => pre.filter(item => item.id !== examinationDetailId))
       })
       .catch(error => {
@@ -81,7 +85,7 @@ const ExaminationDetail =  () => {
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <div className="flex items-center space-x-3.5">
-                      <Link className="hover:text-primary" href={`detailexminations/update?id=${packageItem.id}`}>
+                      <Link className="hover:text-primary" href={`examinationDetail/update?id=${packageItem.id}`}>
                         <svg
                           className="fill-current"
                           width="18"
@@ -150,6 +154,7 @@ const ExaminationDetail =  () => {
           </table>
         </div>
       </div>
+      <Toaster/>
       {/* <!-- ====== ExaminationDetail Section End ====== --> */}
     </>
   );

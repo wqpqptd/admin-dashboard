@@ -3,11 +3,12 @@ import axios from "axios";
 import Breadcrumb from "../Breadcrumbs/Breadcrumb";
 import { URL_SERVER } from "@/services/apiFile";
 import Link from "next/link";
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from "react";
+import toast, { Toaster } from 'react-hot-toast';
 
 const License = () => {
-
+  const router = useRouter()
   const searchParams = useSearchParams()
   const [packageItems, setPackageItem] = useState([])
   const licenseId = Number(searchParams.get('id'));
@@ -24,6 +25,7 @@ const License = () => {
     axios.delete(`${URL_SERVER}/driverlicense/${licenseId}`)
       .then(response => {
         console.log(`Deleted license with ID ${licenseId}`, response.data);
+        toast.success('Xóa giấy phép lái xe thành công!')
         setPackageItem(pre => pre.filter(item => item.id !== licenseId))
       })
       .catch(error => {
@@ -36,10 +38,10 @@ const License = () => {
       {/* <!-- ====== License Section Start ====== --> */}
       <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
         <div className="max-w-full overflow-x-auto">
-          <Link href={"/license/create"}>
+          {/* <Link href={"/license/create"}>
             <button className="flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Thêm giấy phép lái xe</button>
             <br />
-          </Link>
+          </Link> */}
           <table className="w-full table-auto">
             <thead>
               <tr className="bg-meta-1 text-left dark:bg-meta-4">
@@ -162,6 +164,7 @@ const License = () => {
           </table>
         </div>
       </div>
+      <Toaster />
       {/* <!-- ====== License Section End ====== --> */}
     </>
   );

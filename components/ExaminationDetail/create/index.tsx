@@ -3,14 +3,19 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { URL_SERVER } from "@/services/apiFile";
 import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState, useEffect } from 'react'
 import { useForm } from "react-hook-form";
+import toast, { Toaster } from 'react-hot-toast';
+
 
 
 const CreateExaminationDetail = () => {
     const [examinationDetails, setExaminationDetails] = useState([])
     const [examinations, setExaminations] = useState([])
     const [officers, setOfficers] = useState([])
+    const router = useRouter()
+
 
     const {
         register,
@@ -29,6 +34,8 @@ const CreateExaminationDetail = () => {
                 },
             });
             setExaminationDetails(response.data);
+            toast.success('Thêm chi tiết đợt sát hạch thành công!')
+            router.push('/examinationDetail')
         } catch (error) {
             console.log(error);
         }
@@ -106,6 +113,7 @@ const CreateExaminationDetail = () => {
                     </form>
                 </div>
             </div>
+            <Toaster />
             {/* <!-- ====== Create ExaminationDetail Section End ====== --> */}
         </>
     );

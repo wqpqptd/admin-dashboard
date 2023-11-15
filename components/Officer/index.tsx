@@ -4,10 +4,11 @@ import Breadcrumb from "../Breadcrumbs/Breadcrumb";
 import { URL_SERVER } from "@/services/apiFile";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import toast, { Toaster } from 'react-hot-toast';
 
 const Officer =  () => {
-
+  const router = useRouter()
   const searchParams = useSearchParams()
   const [packageItems, setPackageItem] = useState([])
   const OfficerId = Number(searchParams.get('id'));
@@ -25,6 +26,7 @@ const Officer =  () => {
     axios.delete(`${URL_SERVER}/officer/${officerId}`)
       .then(response => {
         console.log(`Deleted officer with ID ${officerId}`, response.data);
+        toast.success('Xoá cán bộ thành công!')
         setPackageItem(pre => pre.filter(item => item.id !== officerId))
       })
       .catch(error => {
@@ -86,7 +88,7 @@ const Officer =  () => {
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <div className="flex items-center space-x-3.5">
-                      <Link className="hover:text-primary" href={"/"}>
+                      <Link className="hover:text-primary" href={`officer/update?id=${packageItem.id}`}>
                         <svg
                           className="fill-current"
                           width="18"
@@ -155,6 +157,7 @@ const Officer =  () => {
           </table>
         </div>
       </div>
+      <Toaster/>
       {/* <!-- ====== Officer Section End ====== --> */}
     </>
   );

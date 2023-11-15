@@ -1,24 +1,47 @@
+'use client'
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { URL_SERVER } from "@/services/apiFile";
 import axios from "axios";
 import Link from "next/link";
+import { useRouter, } from "next/navigation";
+import toast, { Toaster } from 'react-hot-toast';
+import { useState, useEffect } from 'react'
 
 
-const FileId = async ({ params }: { params: any }) => {
+const FileId = ({params}:{params:any}) => {
+    const fileId=params
+    const router = useRouter()
+    const [packageItem, setPackageItem] = useState({})
 
-    console.log('>>>>>>>>>>>', params)
+    useEffect(() => {
+        axios.get(`${URL_SERVER}/profile/${fileId}`, { headers: { 'Access-Control-Allow-Origin': '*' } })
+            .then(response => {
+                console.log("response: ", response)
+                setPackageItem(response.data);
+            })
+            .catch(err => console.log(err))
+    }, [fileId])
 
-    async function getFile() {
-        try {
-            const response = await axios.get(`${URL_SERVER}/profile/${params}`);
-            return response.data
-        } catch (error) {
-            console.error(error);
-        }
+    const approvedFile = (fileId: any) => {
+        axios.patch(`${URL_SERVER}/profile/${fileId}/status`, { profileStatus: "APPROVED" })
+            .then(response => {
+                toast.success('Duyệt hồ sơ đạt chuẩn thành công!')
+                console.log(`Approved file with ID ${fileId}`, response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
     }
-
-    const packageItem = await getFile();
-
+    const notApprovedFile = (fileId: any) => {
+        axios.patch(`${URL_SERVER}/profile/${fileId}/status`, { profileStatus: "NOT_APPROVE" })
+            .then(response => {
+                toast.success('Duyệt hồ sơ không đạt chuẩn thành công!')
+                console.log(`Approved file with ID ${fileId}`, response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
     return (
         <>
             <Breadcrumb pageName="Hồ sơ sát hạch" />
@@ -40,11 +63,6 @@ const FileId = async ({ params }: { params: any }) => {
                                 Họ và tên:
                             </label>
                             <p className="text-left dark:bg-meta-4 font-medium text-black dark:text-white">{packageItem?.name}</p>
-                            {/* <input
-                                    type="text"
-                                    placeholder=""
-                                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                /> */}
                         </div>
                         <div className="mb-4.5 rounded border-[1.5px] border-stroke bg-transparent">
                             <label className="font-bold mb-2.5 block text-black dark:text-white">
@@ -113,6 +131,12 @@ const FileId = async ({ params }: { params: any }) => {
                         </div>
                         <div className="mb-4.5 rounded border-[1.5px] border-stroke bg-transparent">
                             <label className="font-bold mb-2.5 block text-black dark:text-white">
+                                Email:
+                            </label>
+                            <p className="text-left dark:bg-meta-4 font-medium text-black dark:text-white">{packageItem?.email}</p>
+                        </div>
+                        <div className="mb-4.5 rounded border-[1.5px] border-stroke bg-transparent">
+                            <label className="font-bold mb-2.5 block text-black dark:text-white">
                                 Đợt sát hạch:
                             </label>
                             <p className="text-left dark:bg-meta-4 font-medium text-black dark:text-white">{packageItem?.examinationsId?.examinationsName}</p>
@@ -125,24 +149,20 @@ const FileId = async ({ params }: { params: any }) => {
                         </div>
                         <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
                             <div className="w-full xl:w-1/2">
-                                <Link href={`update?id=${packageItem.id}`}>
-                                    <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
-                                        Cập nhật
-                                    </button>
-                                </Link>
+                                <button onClick={() => notApprovedFile(packageItem?.id)} className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
+                                    Hồ sơ không đạt tiêu chuẩn
+                                </button>
                             </div>
                             <div className="w-full xl:w-1/2">
-                                <Link href={"/file"}>
-                                    <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
-                                        Hủy
-                                    </button>
-                                </Link>
+                                <button onClick={() => approvedFile(packageItem?.id)} className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
+                                    Hồ sơ đạt tiêu chuẩn
+                                </button>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
+            <Toaster />
             {/* <!-- ====== File Section End ====== --> */}
         </>
     );

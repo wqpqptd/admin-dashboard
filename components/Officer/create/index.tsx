@@ -3,12 +3,14 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { URL_SERVER } from "@/services/apiFile";
 import axios from "axios";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast, { Toaster } from 'react-hot-toast';
 
 
-const CreateOfficer =  () => {
+const CreateOfficer = () => {
+    const router = useRouter()
     const [officers, setOfficers] = useState([])
     const {
         register,
@@ -27,7 +29,8 @@ const CreateOfficer =  () => {
                 },
             });
             setOfficers(response.data);
-            window.location.reload()
+            toast.success('Thêm cán bộ thành công!')
+            router.push('/officer')
         } catch (error) {
             console.log(error);
         }
@@ -97,6 +100,7 @@ const CreateOfficer =  () => {
                     </form>
                 </div>
             </div>
+            <Toaster />
             {/* <!-- ====== Create Officer Section End ====== --> */}
         </>
     );

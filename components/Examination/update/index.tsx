@@ -80,6 +80,17 @@ const UpdateExamination = () => {
                   {...register('examinationsDate')}
                 />
               </div>
+              <div className="mb-4.5">
+                <label className="mb-2.5 block text-black dark:text-white">
+                  Giới hạn số lượng người tham gia: <span className="text-meta-1">*</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder={packageItem?.examinationsQuantity}
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  {...register('examinationsQuantity')}
+                />
+              </div>
               <div className="mb-6">
                 <label className="mb-2.5 block text-black dark:text-white">
                   Nội dung đợt sát hạch:<span className="text-meta-1">*</span>
@@ -98,9 +109,11 @@ const UpdateExamination = () => {
                   </button>
                 </div>
                 <div className="w-full xl:w-1/2">
-                  <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
-                    Hủy
-                  </button>
+                  <Link href={"/examination"}>
+                    <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
+                      Hủy
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -108,7 +121,7 @@ const UpdateExamination = () => {
         </div>
       </div>
       {/* <!-- ====== Update Examination Section End ====== --> */}
-      <Toaster/>
+      <Toaster />
     </>
   );
 };

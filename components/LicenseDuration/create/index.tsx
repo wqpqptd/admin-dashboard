@@ -2,10 +2,11 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { URL_SERVER } from "@/services/apiFile";
+import toast, { Toaster } from 'react-hot-toast';
 
 
 
@@ -18,6 +19,8 @@ const CreateLicenseDuration = () => {
     const [licenseDuration, setLicenseDuration] = useState([])
     const searchParams = useSearchParams()
     const licenseDurationId = Number(searchParams.get('id'));
+    const router = useRouter()
+
     const onSubmit = async (data: any) => {
         // console.log(data);
         try {
@@ -27,7 +30,8 @@ const CreateLicenseDuration = () => {
                 },
             });
             setLicenseDuration(response.data);
-            window.location.reload()
+            toast.success('Thêm thời hạn giấy phép lái xe thành công!')
+            router.push('/licenseDuration')
         } catch (error) {
             console.log(error);
         }
@@ -37,8 +41,8 @@ const CreateLicenseDuration = () => {
         <>
             <Breadcrumb pageName="Thêm thời hạn giấy phép lái xe" />
             {/* <!-- ====== Create LicenseDuration Section Start ====== --> */}
-            <div className="flex flex-col gap-9" >
-                <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+            <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1" >
+                <div className="max-w-full overflow-x-auto">
                     <Link href={"/licenseDuration"}>
                         <button className="flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Trở về</button>
                         <br />
@@ -75,6 +79,7 @@ const CreateLicenseDuration = () => {
                     </form>
                 </div>
             </div>
+            <Toaster/>
             {/* <!-- ====== Create LicenseDuration Section End ====== --> */}
         </>
     );

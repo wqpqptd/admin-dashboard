@@ -3,7 +3,7 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { URL_SERVER } from "@/services/apiFile";
 import axios from "axios";
 import Link from "next/link";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from "next/navigation";
 import toast, { Toaster } from 'react-hot-toast';
@@ -37,8 +37,6 @@ const UpdateLicense = () => {
         setDriverLicenseClass(response.data)
       })
       .catch(err => console.log(err))
-
-
     axios.get(`${URL_SERVER}/driverlicenseduration`)
       .then(response => {
         setDriverLicenseDuration(response.data)
@@ -48,7 +46,7 @@ const UpdateLicense = () => {
   }, [])
 
   const onSubmit = (data) => {
-    console.log(data)
+    // console.log(data)
     axios.patch(`${URL_SERVER}/driverlicense/${licenseId}`, data, { headers: { 'Access-Control-Allow-Origin': '*' } })
       .then(response => {
         toast.success('Cập nhật thông tin thành công!')

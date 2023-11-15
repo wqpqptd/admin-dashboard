@@ -3,12 +3,15 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { URL_SERVER } from "@/services/apiFile";
 import axios from "axios";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect } from 'react'
 import { useForm } from "react-hook-form";
+import toast, { Toaster } from 'react-hot-toast';
 
 
 const CreateExamination = () => {
+    const router = useRouter()
+
     const [examinations, setExaminations] = useState([])
     const {
         register,
@@ -27,7 +30,8 @@ const CreateExamination = () => {
                 },
             });
             setExaminations(response.data);
-            window.location.reload()
+            toast.success('Thêm đợt sát hạch thành công!')
+            router.push('/examination')
         } catch (error) {
             console.log(error);
         }
@@ -59,7 +63,7 @@ const CreateExamination = () => {
                             </div>
                             <div className="mb-4.5">
                                 <label className="mb-2.5 block text-black dark:text-white">
-                                    Ngày tạo sát hạch: <span className="text-meta-1">*</span>
+                                    Ngày sát hạch: <span className="text-meta-1">*</span>
                                 </label>
                                 <input
                                     {...register('examinationsDate', { required: true })}
@@ -67,6 +71,18 @@ const CreateExamination = () => {
                                     name="examinationsDate"
                                     type="date"
                                     placeholder="Nhập ngày tạo đợt sát hạch"
+                                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                />
+                            </div>
+                            <div className="mb-4.5">
+                                <label className="mb-2.5 block text-black dark:text-white">
+                                    Giới hạn số lượng người tham gia:<span className="text-meta-1">*</span>
+                                </label>
+                                <input
+                                    {...register('examinationsQuantity', { required: true })}
+                                    name="examinationsQuantity"
+                                    type="text"
+                                    placeholder="Nhập số lượng người giới hạn trong đợt sát hạch "
                                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                 />
                             </div>
@@ -101,6 +117,7 @@ const CreateExamination = () => {
                     </form>
                 </div>
             </div>
+            <Toaster />
             {/* <!-- ====== Create Examination Section End ====== --> */}
         </>
     );

@@ -4,13 +4,13 @@ import axios from "axios";
 import Link from "next/link";
 
 
-const FileIdDetail = async ({ params }: { params: any }) => {
+const FileDetailId = async ({ params }: { params: any }) => {
 
-    console.log('>>>>>>>>>>>', params)
+    // console.log('>>>>>>>>>>>', params)
 
     async function getFileDetail() {
         try {
-            const response = await axios.get(`${URL_SERVER}/profiledetail/${params}`);
+            const response = await axios.get(`${URL_SERVER}/detailprofile/${params}`);
             return response.data
         } catch (error) {
             console.error(error);
@@ -22,10 +22,10 @@ const FileIdDetail = async ({ params }: { params: any }) => {
     return (
         <>
             <Breadcrumb pageName="Chi tiết hồ sơ sát hạch" />
-            {/* <!-- ======FileIdDetail Section Start ====== --> */}
+            {/* <!-- ======File Section Start ====== --> */}
             <div key={packageItem?.id} className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1" >
                 <div className="max-w-full overflow-x-auto">
-                    <Link href={"/fileDetail"}>
+                    <Link href={"/file"}>
                         <button className="mb-4.̀5 flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Trở về</button>
                         <br />
                     </Link>
@@ -48,9 +48,9 @@ const FileIdDetail = async ({ params }: { params: any }) => {
                         </div>
                         <div className="mb-4.5 rounded border-[1.5px] border-stroke bg-transparent">
                             <label className="font-bold mb-2.5 block text-black dark:text-white">
-                                Ngày sinh:
+                                Ngày sát hạch:
                             </label>
-                            <p className="text-left dark:bg-meta-4 font-medium text-black dark:text-white">{packageItem?.dateofbirth}</p>
+                            <p className="text-left dark:bg-meta-4 font-medium text-black dark:text-white">{packageItem?.dateExamination}</p>
                         </div>
                         <div className="mb-4.5 rounded border-[1.5px] border-stroke bg-transparent">
                             <label className="font-bold mb-2.5 block text-black dark:text-white">
@@ -86,13 +86,13 @@ const FileIdDetail = async ({ params }: { params: any }) => {
                             <label className="font-bold mb-2.5 block text-black dark:text-white">
                                 Tôn giáo:
                             </label>
-                            <p className="text-left dark:bg-meta-4 font-medium text-black dark:text-white">{packageItem?.religionId?.religionName}</p>
+                            <p className="text-left dark:bg-meta-4 font-medium text-black dark:text-white">{packageItem?.religionName}</p>
                         </div>
                         <div className="mb-4.5 rounded border-[1.5px] border-stroke bg-transparent">
                             <label className="font-bold mb-2.5 block text-black dark:text-white">
                                 Dân tộc:
                             </label>
-                            <p className="text-left dark:bg-meta-4 font-medium text-black dark:text-white">{packageItem?.nationId?.nationName}</p>
+                            <p className="text-left dark:bg-meta-4 font-medium text-black dark:text-white">{packageItem?.nationName}</p>
                         </div>
                         <div className="mb-4.5 rounded border-[1.5px] border-stroke bg-transparent">
                             <label className="font-bold mb-2.5 block text-black dark:text-white">
@@ -105,6 +105,12 @@ const FileIdDetail = async ({ params }: { params: any }) => {
                                 alt="avata of file"
                             />
                         </div>
+                        {/* <div className="mb-4.5 rounded border-[1.5px] border-stroke bg-transparent">
+                            <label className="font-bold mb-2.5 block text-black dark:text-white">
+                                Phiếu sức khỏe:
+                            </label>
+                            <iframe src={packageItem.file}></iframe>
+                        </div> */}
                         <div className="mb-4.5 rounded border-[1.5px] border-stroke bg-transparent">
                             <label className="font-bold mb-2.5 block text-black dark:text-white">
                                 Số điện thoại:
@@ -113,37 +119,63 @@ const FileIdDetail = async ({ params }: { params: any }) => {
                         </div>
                         <div className="mb-4.5 rounded border-[1.5px] border-stroke bg-transparent">
                             <label className="font-bold mb-2.5 block text-black dark:text-white">
-                                Đợt sát hạch:
+                                Điểm thi lý thuyết:
                             </label>
-                            <p className="text-left dark:bg-meta-4 font-medium text-black dark:text-white">{packageItem?.examinationsId?.examinationsName}</p>
+                            <p className="text-left dark:bg-meta-4 font-medium text-black dark:text-white">{packageItem?.resultTheoretical}</p>
                         </div>
                         <div className="mb-4.5 rounded border-[1.5px] border-stroke bg-transparent">
                             <label className="font-bold mb-2.5 block text-black dark:text-white">
-                                Ghi chú:
+                                Điểm thi thực hành:
                             </label>
-                            <p className="text-left dark:bg-meta-4 font-medium text-black dark:text-white">{packageItem?.note}</p>
+                            <p className="text-left dark:bg-meta-4 font-medium text-black dark:text-white">{packageItem?.resultPractice}</p>
+                        </div>
+                        <div className="mb-4.5 rounded border-[1.5px] border-stroke bg-transparent">
+                            <label className="font-bold mb-2.5 block text-black dark:text-white">
+                                Email:
+                            </label>
+                            <p className="text-left dark:bg-meta-4 font-medium text-black dark:text-white">{packageItem?.email}</p>
+                        </div>
+                        <div className="mb-4.5 rounded border-[1.5px] border-stroke bg-transparent">
+                            <label className="font-bold mb-2.5 block text-black dark:text-white">
+                                Đợt sát hạch:
+                            </label>
+                            <p className="text-left dark:bg-meta-4 font-medium text-black dark:text-white">{packageItem?.examinationsName}</p>
+                        </div>
+                        <div className="mb-4.5 rounded border-[1.5px] border-stroke bg-transparent">
+                            <label className="font-bold mb-2.5 block text-black dark:text-white">
+                                Thời hạn giấy phép lái xe:
+                            </label>
+                            <p className="text-left dark:bg-meta-4 font-medium text-black dark:text-white">{packageItem?.driverLicenseDuration}</p>
                         </div>
                         <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
-                            <div className="w-full xl:w-1/2">
+                            <div className="w-full xl:w-1/3">
                                 <Link href={`update?id=${packageItem.id}`}>
                                     <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
                                         Cập nhật
                                     </button>
                                 </Link>
                             </div>
-                            <div className="w-full xl:w-1/2">
-                                <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
-                                    Hủy
-                                </button>
+                            {/* <div className="w-full xl:w-1/3">
+                                <Link href={"/"}>
+                                    <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
+                                        Duyệt hồ sơ
+                                    </button>
+                                </Link>
+                            </div> */}
+                            <div className="w-full xl:w-1/3">
+                                <Link href={"/fileDetail"}>
+                                    <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
+                                        Hủy
+                                    </button>
+                                </Link>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
-            {/* <!-- ====== FileIdDetail Section End ====== --> */}
+            {/* <!-- ====== File Section End ====== --> */}
         </>
     );
 };
 
-export default FileIdDetail;
+export default FileDetailId;

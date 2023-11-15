@@ -3,10 +3,12 @@ import axios from "axios";
 import Breadcrumb from "../Breadcrumbs/Breadcrumb";
 import { URL_SERVER } from "@/services/apiFile";
 import Link from "next/link";
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from "react";
+import toast, { Toaster } from 'react-hot-toast';
 
 const LicenseDuration = () => {
+  const router = useRouter()
   const searchParams = useSearchParams()
   const [packageItems, setPackageItem] = useState([])
   const licenseDurationId = Number(searchParams.get('id'));
@@ -23,6 +25,7 @@ const LicenseDuration = () => {
     axios.delete(`${URL_SERVER}/driverlicenseduration/${licenseDurationId}`)
       .then(response => {
         console.log(`Deleted license duration with ID ${licenseDurationId}`, response.data);
+        toast.success('Xóa thời hạn giấy phép lái xe thành công!')
         setPackageItem(pre => pre.filter(item => item.id !== licenseDurationId))
       })
       .catch(error => {
@@ -139,6 +142,7 @@ const LicenseDuration = () => {
           </table>
         </div>
       </div>
+      <Toaster/>
       {/* <!-- ====== LicenseDuration Section End ====== --> */}
     </>
   );

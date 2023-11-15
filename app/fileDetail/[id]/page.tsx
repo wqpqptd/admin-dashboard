@@ -1,5 +1,4 @@
-'use client'
-import FileId from "@/components/File/[id]";
+import FileIdDetail from "@/components/FileDetail/[id]";
 import { Metadata } from "next";
 
 
@@ -14,7 +13,7 @@ export const metadata: Metadata = {
 const FileIdDetailPage = ({params} :{params:any}) => {
   return (
     <>
-      <FileId params={params.id}/>
+      <FileIdDetail params={params.id}/>
     </>
   );
 };
