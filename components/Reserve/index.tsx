@@ -3,52 +3,71 @@ import axios from 'axios'
 import { URL_SERVER } from '../../services/apiFile'
 import Breadcrumb from "../Breadcrumbs/Breadcrumb";
 import Link from 'next/link'
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from "react";
 import toast, { Toaster } from 'react-hot-toast';
 
-
-const FileDetail = () => {
+const Reserve = () => {
     const searchParams = useSearchParams()
-    const router = useRouter()
     const [packageItems, setPackageItem] = useState([])
-    const fileDetailId = Number(searchParams.get('id'));
+    const reserveId = Number(searchParams.get('id'));
+    const [searchIdcard, setSearchIdcard] = useState('');
+
+    console.log('package: ', packageItems)
+    
+    console.log('id', searchIdcard);
+    
 
     useEffect(() => {
-        axios.get(`${URL_SERVER}/detailprofile`)
+        axios.get(`${URL_SERVER}/profile/reverse`)
             .then(response => {
-                setPackageItem(response.data)
-                // console.log(">>>>>>>>>>>>>>", response.data);                
+                setPackageItem(response.data);
+                console.log(response.data);
+
             })
             .catch(err => console.log(err))
     }, [])
-
-
-
-    const deleteFileDetail = (fileDetailId: any) => {
-        axios.delete(`${URL_SERVER}/detailprofile/${fileDetailId}`)
+    const searchByIdcard = () => {
+        axios.get(`${URL_SERVER}/profile/idCard/${searchIdcard}`)
             .then(response => {
-                console.log(`Deleted with ID ${fileDetailId}`, response.data);
-                toast.success('Xóa chi tiết hồ sơ thành công!')
-                setPackageItem(pre => pre.filter(item => item.id !== fileDetailId))
+                setPackageItem(response.data);
+            })
+            .catch(err => console.log(err));
+    }
+    const deleteReserve = (reserveId: any) => {
+        axios.delete(`${URL_SERVER}/detailprofile/${reserveId}`)
+            .then(response => {
+                toast.success('Xóa hồ sơ thành công!')
+                console.log(`Deleted file with ID ${reserveId}`, response.data);
+                setPackageItem(pre => pre.filter(item => item.id !== reserveId))
             })
             .catch(error => {
                 console.error(error);
             });
     }
 
+
     return (
         <>
-            <Breadcrumb pageName="Chi tiết hồ sơ sát hạch" />
-            {/* <!-- ======File Section Start ====== --> */}
+            <Breadcrumb pageName="Hồ sơ được bảo lưu" />
+            {/* <!-- ======Reserve Section Start ====== --> */}
             <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
                 <div className="max-w-full overflow-x-auto">
-                    <div className="w-60">
-                        <Link href={"/fileDetail/create"}>
-                            <button className="flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Thêm chi tiết hồ sơ</button>
-                            <br />
-                        </Link>
+                    {/* <Link href={"/"}>
+                        <button className="flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Thêm hồ sơ</button>
+                        <br />
+                    </Link> */}
+                    <div className="mb-4">
+                        <label className="block text-black dark:text-white mb-2">Tìm kiếm theo ID Card:</label>
+                        <input
+                            type="text"
+                            value={searchIdcard}
+                            onChange={(e) => setSearchIdcard(e.target.value)}
+                            className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                        />
                     </div>
+                    <button onClick={searchByIdcard} className="flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Tìm kiếm</button>
+                    <br />
                     <table className="w-full table-auto">
                         <thead>
                             <tr className="bg-meta-1 text-left dark:bg-meta-4">
@@ -62,33 +81,36 @@ const FileDetail = () => {
                                     Mã định danh
                                 </th>
                                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-                                    Đợt sát hạch
+                                    Tỉnh/Thành Phố
                                 </th>
                                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-                                    Điểm thi lý thuyết
+                                    Số điện thoại
+                                </th>
+                                {/* <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
+                                    Điểm lý thuyết
                                 </th>
                                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-                                    Điểm thi thực hành
+                                    Điểm thực hành
                                 </th>
                                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
                                     Kết quả
-                                </th>
+                                </th> */}
                                 <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
                                     Hành động
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            {packageItems?.map((packageItem: any, index :number) => (
+                            {packageItems?.map((packageItem: any, index: number) => (
                                 <tr key={packageItem?.id}>
                                     <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
                                         <h5 className="font-medium text-black dark:text-white">
-                                            {index +1}
+                                            {index + 1}
                                         </h5>
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <p className="text-black dark:text-white">
-                                            <Link className="mb-5.5 inline-block hover:text-primary" href={`fileDetail/${packageItem?.id}`}>
+                                            <Link className="mb-5.5 pt-3 inline-block hover:text-primary" href={`fileDetail/${packageItem?.id}`}>
                                                 {packageItem?.name}
                                             </Link>
                                         </p>
@@ -100,10 +122,15 @@ const FileDetail = () => {
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <p className="text-black dark:text-white">
-                                            {packageItem?.dateExamination}
+                                            {packageItem?.province}
                                         </p>
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                                        <p className="text-black dark:text-white">
+                                            {packageItem?.phone}
+                                        </p>
+                                    </td>
+                                    {/* <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <p className="text-black dark:text-white">
                                             {packageItem?.resultTheoretical}
                                         </p>
@@ -117,26 +144,26 @@ const FileDetail = () => {
                                         <p className="text-black dark:text-white">
                                             {packageItem?.result}
                                         </p>
-                                    </td>
+                                    </td> */}
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <div className="flex items-center space-x-3.5">
-                                            <Link className="hover:text-primary" href={`fileDetail/update?id=${packageItem?.id}&currentProfileId=${packageItem.profileId}`}>
-                                                    <svg
-                                                        className="fill-current"
-                                                        width="18"
-                                                        height="18"
-                                                        viewBox="0 0 18 18"
-                                                        fill="none"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                    >
-                                                        <path
-                                                            d="M15.55 2.97499C15.55 2.77499 15.475 2.57499 15.325 2.42499C15.025 2.12499 14.725 1.82499 14.45 1.52499C14.175 1.24999 13.925 0.974987 13.65 0.724987C13.525 0.574987 13.375 0.474986 13.175 0.449986C12.95 0.424986 12.75 0.474986 12.575 0.624987L10.875 2.32499H2.02495C1.17495 2.32499 0.449951 3.02499 0.449951 3.89999V14C0.449951 14.85 1.14995 15.575 2.02495 15.575H12.15C13 15.575 13.725 14.875 13.725 14V5.12499L15.35 3.49999C15.475 3.34999 15.55 3.17499 15.55 2.97499ZM8.19995 8.99999C8.17495 9.02499 8.17495 9.02499 8.14995 9.02499L6.34995 9.62499L6.94995 7.82499C6.94995 7.79999 6.97495 7.79999 6.97495 7.77499L11.475 3.27499L12.725 4.49999L8.19995 8.99999ZM12.575 14C12.575 14.25 12.375 14.45 12.125 14.45H2.02495C1.77495 14.45 1.57495 14.25 1.57495 14V3.87499C1.57495 3.62499 1.77495 3.42499 2.02495 3.42499H9.72495L6.17495 6.99999C6.04995 7.12499 5.92495 7.29999 5.87495 7.49999L4.94995 10.3C4.87495 10.5 4.92495 10.675 5.02495 10.85C5.09995 10.95 5.24995 11.1 5.52495 11.1H5.62495L8.49995 10.15C8.67495 10.1 8.84995 9.97499 8.97495 9.84999L12.575 6.24999V14ZM13.5 3.72499L12.25 2.49999L13.025 1.72499C13.225 1.92499 14.05 2.74999 14.25 2.97499L13.5 3.72499Z"
-                                                            fill=""
-                                                        />
-                                                    </svg>
+                                            <Link className="hover:text-primary" href={`fileDetail/update?id=${packageItem?.id}&currentProfileId=${packageItem.id}`}>
+                                                <svg
+                                                    className="fill-current"
+                                                    width="18"
+                                                    height="18"
+                                                    viewBox="0 0 18 18"
+                                                    fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                >
+                                                    <path
+                                                        d="M15.55 2.97499C15.55 2.77499 15.475 2.57499 15.325 2.42499C15.025 2.12499 14.725 1.82499 14.45 1.52499C14.175 1.24999 13.925 0.974987 13.65 0.724987C13.525 0.574987 13.375 0.474986 13.175 0.449986C12.95 0.424986 12.75 0.474986 12.575 0.624987L10.875 2.32499H2.02495C1.17495 2.32499 0.449951 3.02499 0.449951 3.89999V14C0.449951 14.85 1.14995 15.575 2.02495 15.575H12.15C13 15.575 13.725 14.875 13.725 14V5.12499L15.35 3.49999C15.475 3.34999 15.55 3.17499 15.55 2.97499ZM8.19995 8.99999C8.17495 9.02499 8.17495 9.02499 8.14995 9.02499L6.34995 9.62499L6.94995 7.82499C6.94995 7.79999 6.97495 7.79999 6.97495 7.77499L11.475 3.27499L12.725 4.49999L8.19995 8.99999ZM12.575 14C12.575 14.25 12.375 14.45 12.125 14.45H2.02495C1.77495 14.45 1.57495 14.25 1.57495 14V3.87499C1.57495 3.62499 1.77495 3.42499 2.02495 3.42499H9.72495L6.17495 6.99999C6.04995 7.12499 5.92495 7.29999 5.87495 7.49999L4.94995 10.3C4.87495 10.5 4.92495 10.675 5.02495 10.85C5.09995 10.95 5.24995 11.1 5.52495 11.1H5.62495L8.49995 10.15C8.67495 10.1 8.84995 9.97499 8.97495 9.84999L12.575 6.24999V14ZM13.5 3.72499L12.25 2.49999L13.025 1.72499C13.225 1.92499 14.05 2.74999 14.25 2.97499L13.5 3.72499Z"
+                                                        fill=""
+                                                    />
+                                                </svg>
                                             </Link>
 
-                                            <button onClick={() => deleteFileDetail(packageItem?.id)} className="hover:text-primary">
+                                            <button onClick={() => deleteReserve(packageItem?.id)} className="hover:text-primary">
                                                 <svg
                                                     className="fill-current"
                                                     width="18"
@@ -163,6 +190,7 @@ const FileDetail = () => {
                                                     />
                                                 </svg>
                                             </button>
+                                            {/* tai file */}
                                             <button className="hover:text-primary">
                                                 <svg
                                                     className="fill-current"
@@ -191,9 +219,9 @@ const FileDetail = () => {
                 </div>
             </div>
             <Toaster />
-            {/* <!-- ====== FileDetail Section End ====== --> */}
+            {/* <!-- ====== Reserve Section End ====== --> */}
         </>
     );
 };
 
-export default FileDetail;
+export default Reserve;

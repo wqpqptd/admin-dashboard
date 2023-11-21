@@ -2,11 +2,10 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { URL_SERVER } from "@/services/apiFile";
 import axios from "axios";
 import Link from "next/link";
+// import * as XLSX from 'xlsx';
 
 
 const FileDetailId = async ({ params }: { params: any }) => {
-
-    // console.log('>>>>>>>>>>>', params)
 
     async function getFileDetail() {
         try {
@@ -25,26 +24,21 @@ const FileDetailId = async ({ params }: { params: any }) => {
             {/* <!-- ======File Section Start ====== --> */}
             <div key={packageItem?.id} className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1" >
                 <div className="max-w-full overflow-x-auto">
-                    <Link href={"/file"}>
+                    <Link href={"/fileDetail"}>
                         <button className="mb-4.̀5 flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Trở về</button>
                         <br />
                     </Link>
                     <div className="p-6.5">
-                        <div className="rounded border-[1.5px] border-stroke bg-transparent mb-4.5 ">
+                        {/* <div className="rounded border-[1.5px] border-stroke bg-transparent mb-4.5 ">
                             <h3 className="font-bold text-black dark:text-white">
                                 Số thứ tự: <p className="text-left dark:bg-meta-4 font-medium text-black dark:text-white">{packageItem?.id}</p>
                             </h3>
-                        </div>
+                        </div> */}
                         <div className="mb-4.5 rounded border-[1.5px] border-stroke bg-transparent">
                             <label className="font-bold mb-2.5 block text-black dark:text-white">
                                 Họ và tên:
                             </label>
                             <p className="text-left dark:bg-meta-4 font-medium text-black dark:text-white">{packageItem?.name}</p>
-                            {/* <input
-                                    type="text"
-                                    placeholder=""
-                                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                                /> */}
                         </div>
                         <div className="mb-4.5 rounded border-[1.5px] border-stroke bg-transparent">
                             <label className="font-bold mb-2.5 block text-black dark:text-white">
@@ -105,12 +99,12 @@ const FileDetailId = async ({ params }: { params: any }) => {
                                 alt="avata of file"
                             />
                         </div>
-                        {/* <div className="mb-4.5 rounded border-[1.5px] border-stroke bg-transparent">
+                        <div className="mb-4.5 rounded border-[1.5px] border-stroke bg-transparent">
                             <label className="font-bold mb-2.5 block text-black dark:text-white">
                                 Phiếu sức khỏe:
                             </label>
                             <iframe src={packageItem.file}></iframe>
-                        </div> */}
+                        </div>
                         <div className="mb-4.5 rounded border-[1.5px] border-stroke bg-transparent">
                             <label className="font-bold mb-2.5 block text-black dark:text-white">
                                 Số điện thoại:
@@ -148,7 +142,7 @@ const FileDetailId = async ({ params }: { params: any }) => {
                             <p className="text-left dark:bg-meta-4 font-medium text-black dark:text-white">{packageItem?.driverLicenseDuration}</p>
                         </div>
                         <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
-                            <div className="w-full xl:w-1/3">
+                            <div className="w-full xl:w-1/2">
                                 <Link href={`update?id=${packageItem.id}`}>
                                     <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
                                         Cập nhật
@@ -162,7 +156,7 @@ const FileDetailId = async ({ params }: { params: any }) => {
                                     </button>
                                 </Link>
                             </div> */}
-                            <div className="w-full xl:w-1/3">
+                            <div className="w-full xl:w-1/2">
                                 <Link href={"/fileDetail"}>
                                     <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
                                         Hủy

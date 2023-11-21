@@ -43,10 +43,12 @@ const File = () => {
             {/* <!-- ======File Section Start ====== --> */}
             <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
                 <div className="max-w-full overflow-x-auto">
+                <div className="w-30">
                     <Link href={"/file/create"}>
                         <button className="flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Thêm hồ sơ</button>
                         <br />
                     </Link>
+                    </div>
 
                     <table className="w-full table-auto">
                         <thead>
@@ -75,11 +77,11 @@ const File = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {packageItems?.map((packageItem: any) => (
+                            {packageItems?.map((packageItem: any, index :number) => (
                                 <tr key={packageItem?.id}>
                                     <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
                                         <h5 className="font-medium text-black dark:text-white">
-                                            {packageItem?.id}
+                                            {index+1}
                                         </h5>
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">

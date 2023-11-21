@@ -18,6 +18,7 @@ const UpdateFile = () => {
     const [district, setDistrict] = useState()
     const [ward, setWard] = useState()
     const [imageAvatar, setImageAvatar] = useState<File|null>(null)
+    const [avatarHealthCard, setAvatarHealthCard] = useState<File | null>(null)
 
     const {
         register,
@@ -41,6 +42,7 @@ const UpdateFile = () => {
             .then(response => {
                 console.log("response: ", response)
                 setPackageItem(response.data);
+                setImageAvatar(response.data.image)
                 setExamination(response.data.examinationsId.id)
                 setNation(response.data.nationId.id)
                 setReligion(response.data.religionId.id)
@@ -70,28 +72,42 @@ const UpdateFile = () => {
 
     const onSubmit = (data) => {
         console.log(data)
-        console.log(imageAvatar)
-        const form = new FormData();
-        form.append('name', data.name || packageItem.name);
-        form.append('dateofbirth', data.dateofbirth || packageItem.dateofbirth);
-        form.append('sex', data.sex || packageItem.sex);
-        form.append('idcard', data.idcard || packageItem.idcard);
-        form.append('phone', data.phone || packageItem.phone);
-        form.append('image', imageAvatar);
-        form.append('note', data.note || packageItem.note);
-        form.append("nation_id", nation);
-        form.append("religion_id", religion);
-        form.append("province", province);
-        form.append("district", district);
-        form.append("wards", ward);
-        form.append("examinations_id", examination);
+        // console.log(imageAvatar)
+        // const form = new FormData();
+        // form.append('name', data.name || packageItem.name);
+        // form.append('dateofbirth', data.dateofbirth || packageItem.dateofbirth);
+        // form.append('sex', data.sex || packageItem.sex);
+        // form.append('idcard', data.idcard || packageItem.idcard);
+        // form.append('phone', data.phone || packageItem.phone);
+        // form.append('image', imageAvatar);
+        // form.append('file', avatarHealthCard);
+        // form.append('note', data.note || packageItem.note);
+        // form.append("nation_id", nation);
+        // form.append("religion_id", religion);
+        // form.append("province", province);
+        // form.append("district", district);
+        // form.append("wards", ward);
+        // form.append("examinations_id", examination);
 
-        axios.patch(`${URL_SERVER}/profile/${fileId}`, form, {headers: {"Content-Type": "multipart/form-data" }})
+        axios.patch(`${URL_SERVER}/profile/${fileId}`, data, {headers: {"Content-Type": "multipart/form-data" }})
             .then((response) => {
                 toast.success('Cập nhật thông tin thành công!')
             })
             .catch(err => console.log(err))
 
+    }
+
+    const onUploadFile = e => {
+        if (e.target.files && e.target.files[0]) {
+            const img = e.target.files[0];
+            const form = new FormData();
+            form.append('image', img)
+            axios.patch(`${URL_SERVER}/image/${fileId}`, form, {headers: {"Content-Type": "multipart/formdata"}})
+            .then((response) => {
+                setImageAvatar(img);
+            })
+            .catch(err => console.log(err))
+        }
     }
 
 
@@ -106,11 +122,11 @@ const UpdateFile = () => {
                         <br />
                     </Link>
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
+                        {/* <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
                             <h3 className="font-bold text-black dark:text-white">
                                 Số thứ tự: <p className="text-left dark:bg-meta-4 font-medium text-black dark:text-white">{packageItem?.id}</p>
                             </h3>
-                        </div>
+                        </div> */}
                         <div className="p-6.5">
                             <div className="mb-4.5">
                                 <label className="mb-2.5 font-bold block text-black dark:text-white">
@@ -215,20 +231,38 @@ const UpdateFile = () => {
                                     placeholder="Hình ảnh"
                                     type="file"
                                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                    onChange={onUploadFile}
+                                />
+                                <br />
+                                <br />
+                                <img
+                                    src={imageAvatar?.name ? `${URL_SERVER}/image/${imageAvatar?.name}` : imageAvatar}
+                                    width={300}
+                                    height={400}
+                                    alt="avata of file"
+                                />
+                            </div>
+                            <div className="mb-4.5">
+                                <label className="mb-2.5 block text-black dark:text-white">
+                                    Phiếu sức khỏe:
+                                </label>
+                                <input
+                                    placeholder="Phiếu sức khỏe"
+                                    type="file"
+                                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                     onChange={e => {
                                         if (e.target.files && e.target.files[0]) {
-                                            const img = e.target.files[0];
-                                            setImageAvatar(img);
+                                            const healthCard = e.target.files[0];
+                                            setAvatarHealthCard(healthCard);
                                         }
                                     }}
                                 />
                                 <br />
                                 <br />
-                                <img
-                                    src={packageItem?.image}
-                                    width={300}
-                                    height={400}
-                                    alt="avata of file"
+                                <iframe
+                                    src={packageItem?.file}
+                                    // width={300}
+                                    // height={400}
                                 />
                             </div>
                             <div className="mb-4.5">

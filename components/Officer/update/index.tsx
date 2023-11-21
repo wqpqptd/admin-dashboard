@@ -50,12 +50,12 @@ const UpdateOfficer = () => {
               <button className="flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Trở về</button>
               <br />
             </Link>
-            <h3 className="font-medium text-black dark:text-white">
+            {/* <h3 className="font-medium text-black dark:text-white">
               Số thứ tự:
               <h5 className="font-medium text-black dark:text-white">
                 {packageItem?.id}
               </h5>
-            </h3>
+            </h3> */}
           </div>
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="p-6.5">

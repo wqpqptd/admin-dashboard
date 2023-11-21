@@ -32,7 +32,10 @@ const CreateLicense = () => {
             });
             console.log(response)
             toast.success('Thêm giấy phép lái xe thành công!')
-            router.push(`/fileDetail/create?idLicense=${response.data.id}`)
+            if(searchParams.get('action') === 'update') {
+                router.push(`/fileDetail/update?idLicense=${response.data.id}`)
+            }
+            else router.push(`/fileDetail/create?idLicense=${response.data.id}`)
         } catch (error) {
             console.log(error);
         }

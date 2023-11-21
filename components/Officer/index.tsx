@@ -64,17 +64,16 @@ const Officer =  () => {
               </tr>
             </thead>
             <tbody>
-              {packageItems.map((packageItem: any) => (
+              {packageItems.map((packageItem: any, index :number) => (
                 <tr key={packageItem.id}>
                   <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
                     <h5 className="font-medium text-black dark:text-white">
-                      {packageItem.id}
+                      {index+1}
                     </h5>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <Link className="mb-5.5 inline-block hover:text-primary" href={`examination/${packageItem.id}`}>
+                    {/* <Link className="mb-5.5 inline-block hover:text-primary" href={`examination/${packageItem.id}`}></Link> */}
                       {packageItem.name}
-                    </Link>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-black dark:text-white">
