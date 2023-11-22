@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import axios from "axios";
 import { URL_SERVER } from "@/services/apiFile";
+import Image from "next/image";
 const MapOne = dynamic(() => import("../Maps/MapOne"), {
   ssr: false,
 });
@@ -67,7 +68,7 @@ const DrivingSchool: React.FC = () => {
               fill=""
             />
           </svg> */}
-          <img src="/images/icon/file.svg" alt="file"  width="20" height="22"/>
+          <Image src="/images/icon/file.svg" alt="file"  width="20" height="22"/>
         </CardDataStats>
         <CardDataStats title="Tổng số hồ sơ sát hạch" total={packageItems.length} levelUp>
           {/* <svg
@@ -91,10 +92,12 @@ const DrivingSchool: React.FC = () => {
               fill=""
             />
           </svg> */}
-          <img src="/images/icon/examinations.svg" alt="examinations"  width="20" height="22"/>
+          <Image src="/images/icon/examinations.svg" alt="file"  width="20" height="22"/>
+
         </CardDataStats>
         <CardDataStats title="Tổng số hồ sơ của đợt sát hạch gần nhất " total={handleNumberProfiles(examinations, packageItems).length} levelUp>
-          <img src="/images/icon/examinations.svg" alt="examinations"  width="20" height="22"/>
+          <Image src="/images/icon/examinations.svg" alt="file"  width="20" height="22"/>
+
         </CardDataStats>
       </div>
 

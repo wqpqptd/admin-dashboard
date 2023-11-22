@@ -10,6 +10,7 @@ import SelectWards from '@/components/Select/SelectWards';
 import { useForm } from 'react-hook-form';
 import Link from 'next/link';
 import toast, { Toaster } from 'react-hot-toast';
+import Image from 'next/image';
 
 
 const UpdateFile = () => {
@@ -235,7 +236,7 @@ const UpdateFile = () => {
                                 />
                                 <br />
                                 <br />
-                                <img
+                                <Image
                                     src={imageAvatar?.name ? `${URL_SERVER}/image/${imageAvatar?.name}` : imageAvatar}
                                     width={300}
                                     height={400}

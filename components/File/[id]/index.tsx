@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter, } from "next/navigation";
 import toast, { Toaster } from 'react-hot-toast';
 import { useState, useEffect } from 'react'
+import Image from "next/image";
 
 
 const FileId = ({ params }: { params: any }) => {
@@ -118,7 +119,7 @@ const FileId = ({ params }: { params: any }) => {
                             <label className="font-bold mb-2.5 block text-black dark:text-white">
                                 Ảnh:
                             </label>
-                            <img
+                            <Image
                                 src={packageItem?.image}
                                 width={300}
                                 height={400}
@@ -129,20 +130,14 @@ const FileId = ({ params }: { params: any }) => {
                             <label className="font-bold mb-2.5 block text-black dark:text-white">
                                 Phiếu sức khoẻ:
                             </label>
-                            {/* <iframe src='/assets/pdfs/myResume.pdf' /> */}
                             {packageItem?.file ? (
                                 <iframe
                                     src={packageItem.file}
-                                    // src="https://www.africau.edu/images/default/sample.pdf"
-                                    // src="http://localhost:8080/file/Thoi khoa bieu.pdf"
-                                    // src="file:///D:/TuongDi/LVTN/Code/backend/uploads/Thoi%20khoa%20bieu.pdf"
-
                                     width="100%"
                                     height="500px"
                                     title="PDF Viewer"
                                     onError={(e) => {
                                         console.error('Lỗi khi tải PDF:', e);
-                                        // Xử lý lỗi (ví dụ: hiển thị một thông báo cho người dùng)
                                     }}
                                 />
                             ) : (
