@@ -1,4 +1,4 @@
-'use client'
+// 'use client'
 import Examination from "@/components/Examination";
 import { Metadata } from "next";
 

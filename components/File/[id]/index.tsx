@@ -6,7 +6,6 @@ import Link from "next/link";
 import { useRouter, } from "next/navigation";
 import toast, { Toaster } from 'react-hot-toast';
 import { useState, useEffect } from 'react'
-import Image from "next/image";
 
 
 const FileId = ({ params }: { params: any }) => {
@@ -119,7 +118,7 @@ const FileId = ({ params }: { params: any }) => {
                             <label className="font-bold mb-2.5 block text-black dark:text-white">
                                 Ảnh:
                             </label>
-                            <Image
+                            <img
                                 src={packageItem?.image}
                                 width={300}
                                 height={400}

@@ -1,9 +1,7 @@
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { URL_SERVER } from "@/services/apiFile";
 import axios from "axios";
-import Image from "next/image";
 import Link from "next/link";
-// import * as XLSX from 'xlsx';
 
 
 const FileDetailId = async ({ params }: { params: any }) => {
@@ -93,7 +91,7 @@ const FileDetailId = async ({ params }: { params: any }) => {
                             <label className="font-bold mb-2.5 block text-black dark:text-white">
                                 Ảnh:
                             </label>
-                            <Image
+                            <img
                                 src={packageItem?.image}
                                 width={300}
                                 height={400}

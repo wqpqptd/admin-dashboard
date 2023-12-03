@@ -1,5 +1,4 @@
-'use client'
-import ExaminationDetail from "@/components/ExaminationDetail";
+import Examination from "@/components/Examination";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -11,12 +10,12 @@ export const metadata: Metadata = {
   // other metadata
 };
 
-const ExaminationDetailPage = () => {
+const ExaminationPage = () => {
   return (
     <>
-      <ExaminationDetail />
+      <Examination />
     </>
   );
 };
 
-export default ExaminationDetailPage;
+export default ExaminationPage;

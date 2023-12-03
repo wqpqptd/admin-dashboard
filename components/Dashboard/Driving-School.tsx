@@ -44,7 +44,7 @@ const DrivingSchool: React.FC = () => {
           return new Date(a.examinationsDate).getTime() - new Date(b.examinationsDate).getTime()
         })
 
-        return packageItems.filter(item => item.examinationsId.examinationsDate === examFuture[0].examinationsDate)
+        return packageItems.filter(item => item.examinationsId?.examinationsDate === examFuture[0]?.examinationsDate)
     } 
   return (
     <>
@@ -93,19 +93,16 @@ const DrivingSchool: React.FC = () => {
             />
           </svg> */}
           <Image src="/images/icon/examinations.svg" alt="file"  width="20" height="22"/>
-
         </CardDataStats>
         <CardDataStats title="Tổng số hồ sơ của đợt sát hạch gần nhất " total={handleNumberProfiles(examinations, packageItems).length} levelUp>
           <Image src="/images/icon/examinations.svg" alt="file"  width="20" height="22"/>
-
         </CardDataStats>
       </div>
-
       <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
-        {/* <ChartOne />
-        <ChartTwo />
-        <ChartThree />
-        <MapOne /> */}
+        <ChartOne />
+        {/* <ChartTwo /> */}
+        {/* <ChartThree /> */}
+        {/* <MapOne /> */}
         <div className="col-span-12 xl:col-span-8">
           {/* <TableOne /> */}
         </div>

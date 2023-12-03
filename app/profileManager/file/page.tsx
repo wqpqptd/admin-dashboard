@@ -12,7 +12,10 @@ export const metadata: Metadata = {
   // other metadata
 };
 
+
+
 const FilePage = () => {
+  
   return (
     <>
       <File/>

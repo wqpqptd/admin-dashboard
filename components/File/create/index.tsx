@@ -1,4 +1,4 @@
-'use client'
+// 'use client'
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import SelectDistricts from "@/components/Select/SelectDistricts";
 import SelectProvinces from "@/components/Select/SelectProvinces";
@@ -53,8 +53,8 @@ const CreateFile = () => {
     }, [])
 
     const onSubmit = (data) => {
-        
-        
+
+
         const form = new FormData();
         form.append('name', data.name);
         form.append('dateofbirth', data.dateofbirth);
@@ -112,7 +112,7 @@ const CreateFile = () => {
                                     Ngày sinh:<span className="text-meta-1">*</span>
                                 </label>
                                 <input
-                                    type="text"
+                                    type="date"
                                     placeholder="Nhập ngày sinh"
                                     {...register('dateofbirth', { required: true })}
                                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -281,16 +281,18 @@ const CreateFile = () => {
                                     </button>
                                 </div>
                                 <div className="w-full xl:w-1/2">
-                                    <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
-                                        Hủy
-                                    </button>
+                                    <Link href={"/file"}>
+                                        <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
+                                            Hủy
+                                        </button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
-            <Toaster/>
+            <Toaster />
             {/* <!-- ====== Create File Section End ====== --> */}
         </>
     );

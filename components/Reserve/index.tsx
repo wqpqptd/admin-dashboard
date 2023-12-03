@@ -58,7 +58,7 @@ const Reserve = () => {
                         <br />
                     </Link> */}
                     <div className="mb-4">
-                        <label className="block text-black dark:text-white mb-2">Tìm kiếm theo ID Card:</label>
+                        <label className="block text-black dark:text-white mb-2">Tìm kiếm theo mã định danh:</label>
                         <input
                             type="text"
                             value={searchIdcard}

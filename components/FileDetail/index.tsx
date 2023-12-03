@@ -142,7 +142,7 @@ const FileDetail = () => {
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <div className="flex items-center space-x-3.5">
-                                            <Link className="hover:text-primary" href={`fileDetail/update?id=${packageItem?.id}&currentProfileId=${packageItem.profileId}`}>
+                                            <Link className="hover:text-primary" href={`/profileManager/fileDetail/update?id=${packageItem?.id}&currentProfileId=${packageItem.profileId}`}>
                                                 <svg
                                                     className="fill-current"
                                                     width="18"

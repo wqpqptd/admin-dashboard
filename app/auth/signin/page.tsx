@@ -1,18 +1,25 @@
+'use client'
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import { Metadata } from "next";
-export const metadata: Metadata = {
-  title: "Trang đăng nhập | Driving School",
-  description: "This is Signin page for Admin",
-  icons: {
-    icon: '/images/favicon.ico',
-  },
-  // other metadata
-};
+import { useRouter } from "next/navigation";
+// import { Metadata } from "next";
+// export const metadata: Metadata = {
+//   title: "Trang đăng nhập | Driving School",
+//   description: "This is Signin page for Admin",
+//   icons: {
+//     icon: '/images/favicon.ico',
+//   },
+//   // other metadata
+// };
 
 const SignIn: React.FC = () => {
+  const router = useRouter()
+  function handleLogin()  {
+    sessionStorage.setItem('account', JSON.stringify({email:'manager@gmail.com', pw: '1234'}));
+    
+  }
   return (
     <>
       <Breadcrumb pageName="Đăng nhập" />
@@ -254,6 +261,7 @@ const SignIn: React.FC = () => {
                   <input
                     type="submit"
                     value="Đăng nhập"
+                    onClick={handleLogin}
                     className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
                   />
                 </div>

@@ -1,5 +1,5 @@
-'use client'
-import LicenseClass from "@/components/LicenseClass";
+// 'use client'
+import LicenseDuration from "@/components/LicenseDuration";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -11,12 +11,12 @@ export const metadata: Metadata = {
   // other metadata
 };
 
-const LicenseClassPage = () => {
+const LicenseDurationPage = () => {
   return (
     <>
-      <LicenseClass/>
+      <LicenseDuration/>
     </>
   );
 };
 
-export default LicenseClassPage;
+export default LicenseDurationPage;

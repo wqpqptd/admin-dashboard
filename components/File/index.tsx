@@ -3,7 +3,7 @@ import axios from 'axios'
 import { URL_SERVER } from '../../services/apiFile'
 import Breadcrumb from "../Breadcrumbs/Breadcrumb";
 import Link from 'next/link'
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from "react";
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -16,7 +16,7 @@ const File = () => {
         axios.get(`${URL_SERVER}/profile`)
             .then(response => {
                 setPackageItem(response.data);
-                console.log(response.data);
+                // console.log(response.data);
                 
             })
             .catch(err => console.log(err))
@@ -38,13 +38,13 @@ const File = () => {
 
 
     return (
-        <>
+        <>  
             <Breadcrumb pageName="Hồ sơ sát hạch" />
             {/* <!-- ======File Section Start ====== --> */}
             <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
                 <div className="max-w-full overflow-x-auto">
                 <div className="w-30">
-                    <Link href={"/file/create"}>
+                    <Link href={"/profileManager/file/create"}>
                         <button className="flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Thêm hồ sơ</button>
                         <br />
                     </Link>

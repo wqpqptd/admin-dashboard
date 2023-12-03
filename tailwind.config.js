@@ -43,7 +43,7 @@ module.exports = {
       "meta-5": "#259AE6",
       "meta-6": "#4D526B",
       "meta-7": "#FF6766",
-      "meta-8": "#F0950C",
+      "meta-8": "#3C50E0",
       "meta-9": "#E5E7EB",
       success: "#219653",
       danger: "#D34053",

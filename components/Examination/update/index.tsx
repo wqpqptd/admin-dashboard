@@ -80,7 +80,7 @@ const UpdateExamination = () => {
                   {...register('examinationsDate')}
                 />
               </div>
-              <div className="mb-4.5">
+              {/* <div className="mb-4.5">
                 <label className="mb-2.5 block text-black dark:text-white">
                   Giới hạn số lượng người tham gia: <span className="text-meta-1">*</span>
                 </label>
@@ -90,7 +90,7 @@ const UpdateExamination = () => {
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                   {...register('examinationsQuantity')}
                 />
-              </div>
+              </div> */}
               <div className="mb-6">
                 <label className="mb-2.5 block text-black dark:text-white">
                   Nội dung đợt sát hạch:<span className="text-meta-1">*</span>
