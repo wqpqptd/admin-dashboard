@@ -13,18 +13,25 @@ const Reserve = () => {
     const [packageItems, setPackageItem] = useState([])
     const reserveId = Number(searchParams.get('id'));
     const [searchIdcard, setSearchIdcard] = useState('');
+    const [results, setResult] = useState([])
 
-    console.log('package: ', packageItems)
-    
-    console.log('id', searchIdcard);
-    
+    // console.log('package: ', packageItems)
+
+    // console.log('id', searchIdcard);
+
 
     useEffect(() => {
         axios.get(`${URL_SERVER}/profile`)
             .then(response => {
                 setPackageItem(response.data);
-                console.log(response.data);
+                // console.log(">>>>>>>>>>>>>>>>>>>>>profile", response.data);
 
+            })
+            .catch(err => console.log(err))
+        axios.get(`${URL_SERVER}/detailprofile`)
+            .then(response => {
+                setResult(response.data)
+                // console.log(">>>>>>>>>>>>>>", response.data);
             })
             .catch(err => console.log(err))
     }, [])
@@ -102,55 +109,57 @@ const Reserve = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {packageItems.filter((profile)=> profile.type==="REVERSE_PROFILE")?.map((packageItem: any, index: number) => (
-                                <tr key={packageItem?.id}>
-                                    <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
-                                        <h5 className="font-medium text-black dark:text-white">
-                                            {index + 1}
-                                        </h5>
-                                    </td>
-                                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                        <p className="text-black dark:text-white">
-                                            <Link className="mb-5.5 pt-3 inline-block hover:text-primary" href={`fileDetail/${packageItem?.id}`}>
-                                                {packageItem?.name}
-                                            </Link>
-                                        </p>
-                                    </td>
-                                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                        <p className="text-black dark:text-white">
-                                            {packageItem?.idcard}
-                                        </p>
-                                    </td>
-                                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                        <p className="text-black dark:text-white">
-                                            {packageItem?.province}
-                                        </p>
-                                    </td>
-                                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                        <p className="text-black dark:text-white">
-                                            {packageItem?.phone}
-                                        </p>
-                                    </td>
-                                    {/* <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                        <p className="text-black dark:text-white">
-                                            {packageItem?.resultTheoretical}
-                                        </p>
-                                    </td>
-                                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                        <p className="text-black dark:text-white">
-                                            {packageItem?.resultPractice}
-                                        </p>
-                                    </td>
-                                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                        <p className="text-black dark:text-white">
-                                            {packageItem?.result}
-                                        </p>
-                                    </td> */}
-                                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                        <UpdateAndDeleteProfile profileId={packageItem.id}/>
-                                    </td>
-                                </tr>
-                            ))}
+                            {packageItems
+                                .filter((profile) => profile.type === "REVERSE_PROFILE")
+                                .map((packageItem: any, index: number) => {
+                                    // const resultItem = results.find((item) => item?.id === packageItem?.id);
+                                    // const resultTheoretical = resultItem?.resultTheoretical || '-';
+                                    // const resultPractice = resultItem?.resultPractice || '-';
+                                    // const result = resultItem?.result || '-';
+                                    return (
+                                        <tr key={packageItem?.id}>
+                                            <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
+                                                <h5 className="font-medium text-black dark:text-white">
+                                                    {index + 1}
+                                                </h5>
+                                            </td>
+                                            <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                                                <p className="text-black dark:text-white">
+                                                    <Link
+                                                        className="mb-5.5 pt-3 inline-block hover:text-primary"
+                                                        href={`reserve/${packageItem?.id}`}
+                                                    >
+                                                        {packageItem?.name}
+                                                    </Link>
+                                                </p>
+                                            </td>
+                                            <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                                                <p className="text-black dark:text-white">{packageItem?.idcard}</p>
+                                            </td>
+                                            <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                                                <p className="text-black dark:text-white">{packageItem?.province}</p>
+                                            </td>
+                                            <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                                                <p className="text-black dark:text-white">{packageItem?.phone}</p>
+                                            </td>
+                                            {/* <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                                                <p className="text-black dark:text-white">
+                                                    {resultTheoretical}
+                                                </p>
+                                            </td>
+                                            <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                                                <p className="text-black dark:text-white">{resultPractice}</p>
+                                            </td>
+                                            <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                                                <p className="text-black dark:text-white">{result}</p>
+                                            </td> */}
+                                            <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                                                <UpdateAndDeleteProfile profileId={packageItem.id} />
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+
                         </tbody>
                     </table>
                 </div>

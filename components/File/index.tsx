@@ -10,6 +10,7 @@ import toast, { Toaster } from 'react-hot-toast';
 const File = () => {
     const searchParams = useSearchParams()
     const [packageItems, setPackageItem] = useState([])
+    const [results, setResult] = useState([])
     const fileId = Number(searchParams.get('id'));
 
     useEffect(() => {
@@ -18,6 +19,12 @@ const File = () => {
                 setPackageItem(response.data);
                 // console.log(response.data);
 
+            })
+            .catch(err => console.log(err))
+            axios.get(`${URL_SERVER}/detailprofile`)
+            .then(response => {
+                setResult(response.data)
+                // console.log(">>>>>>>>>>>>>>", response.data);                
             })
             .catch(err => console.log(err))
     }, [])
@@ -122,7 +129,7 @@ const File = () => {
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <div className="flex items-center space-x-3.5">
-                                            <Link className="hover:text-primary" href={`file/update?id=${packageItem?.id}`}>
+                                            <Link className="hover:text-primary" href={`/profileManager/file/update?id=${packageItem?.id}`}>
                                                 <svg
                                                     className="fill-current"
                                                     width="18"

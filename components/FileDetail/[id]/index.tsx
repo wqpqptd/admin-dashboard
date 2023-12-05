@@ -102,7 +102,7 @@ const FileDetailId = async ({ params }: { params: any }) => {
                             <label className="font-bold mb-2.5 block text-black dark:text-white">
                                 Phiếu sức khỏe:
                             </label>
-                            <iframe src={packageItem.file}></iframe>
+                            <iframe src={packageItem?.file}></iframe>
                         </div>
                         <div className="mb-4.5 rounded border-[1.5px] border-stroke bg-transparent">
                             <label className="font-bold mb-2.5 block text-black dark:text-white">
@@ -142,7 +142,7 @@ const FileDetailId = async ({ params }: { params: any }) => {
                         </div>
                         <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
                             <div className="w-full xl:w-1/2">
-                                <Link href={`update?id=${packageItem.id}`}>
+                                <Link href={`update?id=${packageItem?.id}`}>
                                     <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
                                         Cập nhật
                                     </button>

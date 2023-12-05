@@ -23,7 +23,7 @@ const ReserveId = async ({ params }: { params: any }) => {
             {/* <!-- ======File Section Start ====== --> */}
             <div key={packageItem?.id} className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1" >
                 <div className="max-w-full overflow-x-auto">
-                    <Link href={"/profileManager/fileDetail"}>
+                    <Link href={"/profileManager/reserve"}>
                         <button className="mb-4.̀5 flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Trở về</button>
                         <br />
                     </Link>
@@ -102,7 +102,7 @@ const ReserveId = async ({ params }: { params: any }) => {
                             <label className="font-bold mb-2.5 block text-black dark:text-white">
                                 Phiếu sức khỏe:
                             </label>
-                            <iframe src={packageItem.file}></iframe>
+                            <iframe src={packageItem?.file}></iframe>
                         </div>
                         <div className="mb-4.5 rounded border-[1.5px] border-stroke bg-transparent">
                             <label className="font-bold mb-2.5 block text-black dark:text-white">
@@ -148,15 +148,8 @@ const ReserveId = async ({ params }: { params: any }) => {
                                     </button>
                                 </Link>
                             </div>
-                            {/* <div className="w-full xl:w-1/3">
-                                <Link href={"/"}>
-                                    <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
-                                        Duyệt hồ sơ
-                                    </button>
-                                </Link>
-                            </div> */}
                             <div className="w-full xl:w-1/2">
-                                <Link href={"/profileManager/fileDetail"}>
+                                <Link href={"/profileManager/reserve"}>
                                     <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
                                         Hủy
                                     </button>

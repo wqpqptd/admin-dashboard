@@ -61,7 +61,7 @@ const FileDetail = () => {
             {/* <!-- ======File Section Start ====== --> */}
             <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
                 <div className="max-w-full overflow-x-auto">
-                <div className="flex justify-between mb-3">
+                    <div className="flex justify-between mb-3">
                         <div>
                             <Link href={"/profileManager/fileDetail/create"}>
                                 <button className="flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Thêm kết quả hồ sơ</button>
@@ -136,8 +136,13 @@ const FileDetail = () => {
                                         </p>
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                        <p className="text-black dark:text-white">
-                                            {packageItem?.result}
+                                        <p className={`inline-flex justify-center rounded-full bg-opacity-10 py-1 px-3 text-sm font-medium ${packageItem?.result === "PASS"
+                                            ? "text-success bg-success"
+                                            : "text-danger bg-danger"
+                                            }`} >
+                                            {packageItem?.result === "PASS"
+                                                ? "ĐẠT"
+                                                : "KHÔNG ĐẠT"}
                                         </p>
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
@@ -185,21 +190,21 @@ const FileDetail = () => {
                                                     />
                                                 </svg>
                                             </button>
-                                            
+
                                         </div>
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
-                    
+
                 </div>
                 {/* <div className='w-60'>
                     <button onClick={exportToExcel} className="flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">
                         Xuất Excel
                     </button>
                 </div> */}
-                
+
             </div>
             <Toaster />
             {/* <!-- ====== FileDetail Section End ====== --> */}
