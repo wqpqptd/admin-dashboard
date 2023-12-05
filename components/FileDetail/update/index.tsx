@@ -79,7 +79,7 @@ const UpdateFileDetail = () => {
             });
             setProfileDetails(response.data);
             toast.success('Cập nhật thông tin thành công!')
-            router.push('/fileDetail')
+            router.push('/profileManager/fileDetail')
         } catch (error) {
             console.log(error);
         }
@@ -89,18 +89,18 @@ const UpdateFileDetail = () => {
         console.log('click', currentProfile)
         if (currentProfile) {
             localStorage.setItem('result-update', JSON.stringify({ resultPractice, resultTheoretical, currentProfile, detailprofileId }))
-            router.push(`/license/create?profileId=${currentProfile}&action=update`)
+            router.push(`/licenseManager/license/create?profileId=${currentProfile}&action=update`)
         }
     }
 
     return (
         <>
-            <Breadcrumb pageName="Cập nhật chi tiết hồ sơ sát hạch" />
+            <Breadcrumb pageName="Cập nhật kết quả hồ sơ sát hạch" />
             {/* <!-- ======Create FileDetail Section Start ====== --> */}
             <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1" >
                 <div className="max-w-full overflow-x-auto">
                     <div className="w-20 ">
-                        <Link href={"/fileDetail"}>
+                        <Link href={"/profileManager/fileDetail"}>
                             <button className="flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Trở về</button>
                             <br />
                         </Link>
@@ -179,7 +179,7 @@ const UpdateFileDetail = () => {
                                     </button>
                                 </div>
                                 <div className="w-full xl:w-1/2">
-                                    <Link href={"/fileDetail"}>
+                                    <Link href={"/profileManager/fileDetail"}>
                                         <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
                                             Hủy
                                         </button>

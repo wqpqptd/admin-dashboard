@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import { URL_SERVER } from "@/services/apiFile";
 import axios from "axios";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import SelectProvinces from '@/components/Select/SelectProvinces';
 import SelectDistricts from '@/components/Select/SelectDistricts';
 import SelectWards from '@/components/Select/SelectWards';
@@ -17,7 +17,7 @@ const UpdateFile = () => {
     const [province, setProvince] = useState()
     const [district, setDistrict] = useState()
     const [ward, setWard] = useState()
-    const [imageAvatar, setImageAvatar] = useState<File|null>(null)
+    const [imageAvatar, setImageAvatar] = useState<File|undefined>(undefined)
     const [avatarHealthCard, setAvatarHealthCard] = useState<File | null>(null)
 
     const {
@@ -33,6 +33,7 @@ const UpdateFile = () => {
     const [religion, setReligion] = useState()
     const [nation, setNation] = useState()
     const [examination, setExamination] = useState()
+    const router = useRouter()
 
 
 
@@ -71,27 +72,25 @@ const UpdateFile = () => {
     }, [])
 
     const onSubmit = (data) => {
-        console.log(data)
-        // console.log(imageAvatar)
-        // const form = new FormData();
-        // form.append('name', data.name || packageItem.name);
-        // form.append('dateofbirth', data.dateofbirth || packageItem.dateofbirth);
-        // form.append('sex', data.sex || packageItem.sex);
-        // form.append('idcard', data.idcard || packageItem.idcard);
-        // form.append('phone', data.phone || packageItem.phone);
-        // form.append('image', imageAvatar);
-        // form.append('file', avatarHealthCard);
-        // form.append('note', data.note || packageItem.note);
-        // form.append("nation_id", nation);
-        // form.append("religion_id", religion);
-        // form.append("province", province);
-        // form.append("district", district);
-        // form.append("wards", ward);
-        // form.append("examinations_id", examination);
-
-        axios.patch(`${URL_SERVER}/profile/${fileId}`, data, {headers: {"Content-Type": "multipart/form-data" }})
+        data?.name ? null : delete data.name;
+        data?.dateofbirth ? null :delete data.dateofbirth;
+        data?.email ? null : delete data.email;
+        data?.idcard ? null : delete data.idcard;
+        data?.sex ? null : delete data.sex;
+        data?.note ? null : delete data.note;
+        data?.phone ? null : delete data.phone;
+        data.religionId = religion;
+        data.nationId = nation;
+        data.examinationsId = examination;
+        data.province = province;
+        data.district = district;
+        data.wards = ward;
+        console.log(data);
+        
+        axios.patch(`${URL_SERVER}/profile/${fileId}`, data)
             .then((response) => {
                 toast.success('Cập nhật thông tin thành công!')
+                router.push('/profileManager/file')
             })
             .catch(err => console.log(err))
 
@@ -110,6 +109,20 @@ const UpdateFile = () => {
         }
     }
 
+    const updateFileHandle = (file) => {
+        
+        const form = new FormData();
+
+        form.append('file', file);
+        
+
+        axios.patch(`${URL_SERVER}/file/${fileId}`, form, {headers: {"Content-Type": "multipart/form-data" }})
+            .then((response) => {
+                toast.success('Cập nhật file!')
+            })
+            .catch(err => console.log(err))
+    }
+
 
     return (
         <>
@@ -117,7 +130,7 @@ const UpdateFile = () => {
             {/* <!-- ======File Section Start ====== --> */}
             <div key={packageItem?.id} className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1" >
                 <div className="max-w-full overflow-x-auto">
-                    <Link href={"/file"}>
+                    <Link href={"/profileManager/file"}>
                         <button className="flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Trở về</button>
                         <br />
                     </Link>
@@ -165,7 +178,7 @@ const UpdateFile = () => {
                             </div>
                             <div className="mb-4.5">
                                 <label className="mb-2.5 font-bold block text-black dark:text-white">
-                                    Mã định danh:
+                                    Căn cước công dân:
                                 </label>
                                 <input
                                     type="text"
@@ -254,6 +267,7 @@ const UpdateFile = () => {
                                         if (e.target.files && e.target.files[0]) {
                                             const healthCard = e.target.files[0];
                                             setAvatarHealthCard(healthCard);
+                                            updateFileHandle(e.target.files[0])
                                         }
                                     }}
                                 />
@@ -309,7 +323,7 @@ const UpdateFile = () => {
                                     </button>
                                 </div>
                                 <div className="w-full xl:w-1/2">
-                                    <Link href={"/file"}>
+                                    <Link href={"/profileManager/file"}>
                                         <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
                                             Hủy
                                         </button>

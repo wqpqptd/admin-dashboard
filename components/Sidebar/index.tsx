@@ -445,7 +445,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         fill=""
                       />
                     </svg>
-                    Quản lý chi tiết hồ sơ
+                    Quản lý kết quả hồ sơ
                   </Link>
                 </li> */}
                 {/* <!-- Menu Item fileResult --> */}

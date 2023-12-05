@@ -49,10 +49,27 @@ const CreateFileDetail = () => {
             setCurrentProfile(pro)
         }
     }, [idLicense])
+    
+    useEffect(() => {
+        console.log(currentProfile)
+        axios.get(`${URL_SERVER}/detailprofile/${currentProfile}`)
+            .then(response => {
+                console.log(response)
+                if(response.data.result) {
+                    toast.error("Ho so da tao ket qua")
+                    setCurrentProfile('');
+                }
+            })
+            .catch(err => console.log(err))
+    }, [currentProfile])
 
 
     const onSubmit = async (e: any) => {
         e.preventDefault()
+        if(resultTheoretical === '0') {
+            alert('error')
+            return;
+        }
 
         try {
             const response = await axios.post(`${URL_SERVER}/detailprofile`, {
@@ -66,8 +83,8 @@ const CreateFileDetail = () => {
                 },
             });
             setProfileDetails(response.data);
-            toast.success('Tạo chi tiết hồ sơ thành công!')
-            router.push('/fileDetail')
+            toast.success('Tạo kết quả hồ sơ thành công!')
+            router.push('/profileManager/fileDetail')
         } catch (error) {
             console.log(error);
         }
@@ -76,18 +93,18 @@ const CreateFileDetail = () => {
     const handleOnClick = () => {
         if (currentProfile) {
             localStorage.setItem('result', JSON.stringify({ resultPractice, resultTheoretical, currentProfile }))
-            router.push(`/license/create?profileId=${currentProfile}`)
+            router.push(`/licenseManager/license/create?profileId=${currentProfile}`)
         }
     }
 
     return (
         <>
-            <Breadcrumb pageName="Thêm chi tiết hồ sơ sát hạch" />
+            <Breadcrumb pageName="Thêm kết quả hồ sơ sát hạch" />
             {/* <!-- ======Create FileDetail Section Start ====== --> */}
             <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1" >
                 <div className="max-w-full overflow-x-auto">
                     <div className="w-20 ">
-                        <Link href={"/fileDetail"}>
+                        <Link href={"/profileManager/fileDetail"}>
                             <button className="flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Trở về</button>
                             <br />
                         </Link>
@@ -168,7 +185,7 @@ const CreateFileDetail = () => {
                                     </button>
                                 </div>
                                 <div className="w-full xl:w-1/2">
-                                    <Link href={"/fileDetail"}>
+                                    <Link href={"/profileManager/fileDetail"}>
                                         <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
                                             Hủy
                                         </button>

@@ -18,10 +18,10 @@ const ExaminationsManagerPage = ({
   return (
     <>
       <div>
-        <ul className="flex bg-primary items-center gap-x-4">
+      <ul className="flex hover:text-primary items-center gap-x-4 py-2">
           {tabs.map((tab, index) => (
-            <li key={index} className="flex-1 border-r-2 border-black-300">
-              <Link key={index} className="p-4 text-black cursor-pointer " href={tab.link}>
+            <li key={index} className=" border-r-2 border-black-300">
+              <Link key={index} className="p-4 text-black hover:text-primary cursor-pointer " href={tab.link}>
                 {tab.title}
               </Link>
             </li>

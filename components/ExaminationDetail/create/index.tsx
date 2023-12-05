@@ -35,7 +35,7 @@ const CreateExaminationDetail = () => {
             });
             setExaminationDetails(response.data);
             toast.success('Thêm chi tiết đợt sát hạch thành công!')
-            router.push('/examinationDetail')
+            router.push('/examinationManager/examinationDetail')
         } catch (error) {
             console.log(error);
         }
@@ -60,7 +60,7 @@ const CreateExaminationDetail = () => {
             {/* <!-- ====== Create ExaminationDetail Section Start ====== --> */}
             <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1" >
                 <div className="max-w-full overflow-x-auto">
-                    <Link href={"/examinationDetail"}>
+                    <Link href={"/examinationManager/examinationDetail"}>
                         <button className="flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Trở về</button>
                         <br />
                     </Link>
@@ -94,6 +94,18 @@ const CreateExaminationDetail = () => {
                                     </select>
                                 </div>
                             </div>
+                            <div className="mb-4.5">
+                                <label className="mb-2.5 block text-black dark:text-white">
+                                    Ghi chú cán bộ:<span className="text-meta-1">*</span>
+                                </label>
+                                <input
+                                    {...register('role', { required: true })}
+                                    name="role"
+                                    type="text"
+                                    placeholder="Nhập công việc của cán bộ "
+                                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                                />
+                            </div>
                             <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
                                 <div className="w-full xl:w-1/2">
                                     <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
@@ -101,7 +113,7 @@ const CreateExaminationDetail = () => {
                                     </button>
                                 </div>
                                 <div className="w-full xl:w-1/2">
-                                    <Link href={"/examinationDetail"}>
+                                    <Link href={"/examinationManager/examinationDetail"}>
                                         <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
                                             Hủy
                                         </button>

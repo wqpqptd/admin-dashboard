@@ -19,11 +19,11 @@ const FileDetailId = async ({ params }: { params: any }) => {
 
     return (
         <>
-            <Breadcrumb pageName="Chi tiết hồ sơ sát hạch" />
+            <Breadcrumb pageName="Kết quả hồ sơ sát hạch" />
             {/* <!-- ======File Section Start ====== --> */}
             <div key={packageItem?.id} className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1" >
                 <div className="max-w-full overflow-x-auto">
-                    <Link href={"/fileDetail"}>
+                    <Link href={"/profileManager/fileDetail"}>
                         <button className="mb-4.̀5 flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Trở về</button>
                         <br />
                     </Link>
@@ -53,7 +53,7 @@ const FileDetailId = async ({ params }: { params: any }) => {
                         </div>
                         <div className="mb-4.5 rounded border-[1.5px] border-stroke bg-transparent">
                             <label className="font-bold mb-2.5 block text-black dark:text-white">
-                                Mã định danh:
+                                Căn cước công dân:
                             </label>
                             <p className="text-left dark:bg-meta-4 font-medium text-black dark:text-white">{packageItem?.idcard}</p>
                         </div>
@@ -156,7 +156,7 @@ const FileDetailId = async ({ params }: { params: any }) => {
                                 </Link>
                             </div> */}
                             <div className="w-full xl:w-1/2">
-                                <Link href={"/fileDetail"}>
+                                <Link href={"/profileManager/fileDetail"}>
                                     <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
                                         Hủy
                                     </button>

@@ -26,7 +26,7 @@ const FileId = ({ params }: { params: any }) => {
         axios.patch(`${URL_SERVER}/profile/${fileId}/status`, { profileStatus: "APPROVED" })
             .then(response => {
                 toast.success('Duyệt hồ sơ đạt chuẩn thành công!')
-                router.push('/file')
+                router.push('/profileManager/file')
                 console.log(`Approved file with ID ${fileId}`, response.data);
             })
             .catch(error => {
@@ -37,7 +37,7 @@ const FileId = ({ params }: { params: any }) => {
         axios.patch(`${URL_SERVER}/profile/${fileId}/status`, { profileStatus: "NOT_APPROVE" })
             .then(response => {
                 toast.success('Duyệt hồ sơ không đạt chuẩn thành công!')
-                router.push('/file')
+                router.push('/profileManager/file')
                 console.log(`Approved file with ID ${fileId}`, response.data);
             })
             .catch(error => {
@@ -50,7 +50,7 @@ const FileId = ({ params }: { params: any }) => {
             {/* <!-- ======File Section Start ====== --> */}
             <div key={packageItem?.id} className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1" >
                 <div className="max-w-full overflow-x-auto">
-                    <Link href={"/file"}>
+                    <Link href={"/profileManager/file"}>
                         <button className="mb-4.̀5 flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Trở về</button>
                         <br />
                     </Link>
@@ -80,7 +80,7 @@ const FileId = ({ params }: { params: any }) => {
                         </div>
                         <div className="mb-4.5 rounded border-[1.5px] border-stroke bg-transparent">
                             <label className="font-bold mb-2.5 block text-black dark:text-white">
-                                Mã định danh:
+                                Căn cước công dân:
                             </label>
                             <p className="text-left dark:bg-meta-4 font-medium text-black dark:text-white">{packageItem?.idcard}</p>
                         </div>

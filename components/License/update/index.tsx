@@ -50,7 +50,7 @@ const UpdateLicense = () => {
     axios.patch(`${URL_SERVER}/driverlicense/${licenseId}`, data, { headers: { 'Access-Control-Allow-Origin': '*' } })
       .then(response => {
         toast.success('Cập nhật thông tin thành công!')
-        router.push('/license')
+        router.push('/licenseManager/license')
       })
       .catch(err => console.log(err))
   }
@@ -63,7 +63,7 @@ const UpdateLicense = () => {
       <div key={packageItem?.id} className="flex flex-col gap-9" >
         <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
           <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
-            <Link href={"/license"}>
+            <Link href={"/licenseManager/license"}>
               <button className="flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Trở về</button>
               <br />
             </Link>
@@ -124,7 +124,7 @@ const UpdateLicense = () => {
                   </button>
                 </div>
                 <div className="w-full xl:w-1/2">
-                  <Link href={"/license"}>
+                  <Link href={"/licenseManager/license"}>
                     <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
                       Hủy
                     </button>

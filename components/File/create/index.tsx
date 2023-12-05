@@ -79,7 +79,7 @@ const CreateFile = () => {
         )
             .then(() => {
                 toast.success('Thêm hồ sơ thành công!')
-                router.push('/file')
+                router.push('/profileManager/file')
             })
             .catch(err => console.log(err))
     }
@@ -90,7 +90,7 @@ const CreateFile = () => {
             {/* <!-- ======Create File Section Start ====== --> */}
             <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1" >
                 <div className="max-w-full overflow-x-auto">
-                    <Link href={"/file"}>
+                    <Link href={"/profileManager/file"}>
                         <button className="flex w-auto justify-center rounded bg-primary p-3 font-medium text-gray">Trở về</button>
                         <br />
                     </Link>
@@ -131,11 +131,11 @@ const CreateFile = () => {
                             </div>
                             <div className="mb-4.5">
                                 <label className="mb-2.5 block text-black dark:text-white">
-                                    Mã định danh:<span className="text-meta-1">*</span>
+                                    Căn cước công dân:<span className="text-meta-1">*</span>
                                 </label>
                                 <input
                                     type="text"
-                                    placeholder="Nhập mã định danh"
+                                    placeholder="Nhập căn cước công dân"
                                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                                     {...register('idcard', { required: true })}
 
@@ -281,7 +281,7 @@ const CreateFile = () => {
                                     </button>
                                 </div>
                                 <div className="w-full xl:w-1/2">
-                                    <Link href={"/file"}>
+                                    <Link href={"/profileManager/file"}>
                                         <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
                                             Hủy
                                         </button>
